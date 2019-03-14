@@ -1,16 +1,16 @@
 # Hsia
 a tool for db sharding
 
-介绍：
+Introduction：
 
 
 
-使用规则：
+Use Rules：
 
 
 
-性能测试：
+Performance Testing：
 
 
 
-联系方式：
+Contact：
