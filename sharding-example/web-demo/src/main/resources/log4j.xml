@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%d{yyyy-MM-dd HH:mm:ss SSS\} %-5p] %c.%M() - %m%n" />
+		</layout>
+	</appender>
+	<appender name="activexAppender" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="E:/tracing.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="[%d{yyyy-MM-dd HH:mm:ss SSS\} %-5p] %c.%M() - %m%n" />
+		</layout>
+	</appender>
+	<logger name="com.alibaba.druid">
+		<level value="warn" />
+	</logger>
+	<logger name="org.springframework.core">
+		<level value="warn" />
+	</logger>
+	<logger name="org.springframework.jndi">
+		<level value="warn" />
+	</logger>
+	<logger name="org.springframework.web">
+		<level value="warn" />
+	</logger>
+	<logger name="org.springframework.context">
+		<level value="warn" />
+	</logger>
+	<logger name="org.springframework.beans">
+		<level value="warn" />
+	</logger>
+	<logger name="org.springframework.ui">
+		<level value="warn" />
+	</logger>
+	<logger name="org.springframework.aop">
+		<level value="warn" />
+	</logger>
+	<logger name="org.apache.ibatis">
+		<level value="warn" />
+	</logger>
+	<logger name="org.mybatis.spring">
+		<level value="warn" />
+	</logger>
+	<logger name="org.springframework.jdbc.datasource">
+		<level value="warn" />
+	</logger>
+	<logger name="com.Hsia.sharding">
+		<level value="debug" />
+	</logger>
+	<root>
+		<priority value="info" />
+		<appender-ref ref="console" />
+		<appender-ref ref="activexAppender" />
+	</root>
+</log4j:configuration>
