@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.Hsia.sharding</groupId>
-	<artifactId>sharding-db</artifactId>
+	<artifactId>sharding-core</artifactId>
 	<version>0.0.1</version>
 	<name>Hsia</name>
 	<description>基于durid的mysql分库分表解决方案</description>
@@ -69,22 +69,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>ognl</groupId>
-			<artifactId>ognl</artifactId>
-			<version>3.1.15</version>
-		</dependency>
-		<dependency>
-			<groupId>org.javassist</groupId>
-			<artifactId>javassist</artifactId>
-			<version>3.22.0-CR2</version>
-		</dependency>
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>3.2.5</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 			<version>2.3</version>
@@ -121,7 +105,7 @@
 				<version>3.1.1</version>
 				<configuration>
 					<excludes>
-						<exclude>log4j.xml</exclude>
+						<exclude>log4j.properties</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
@@ -145,8 +129,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.5.1</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>

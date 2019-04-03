@@ -32,13 +32,15 @@ public class ShardingTest {
 
             userService.save(user, 1);
             User u2 = userService.query(id, 1);
-            System.out.println("分库分表：" + u2);
+            System.out.println("分库分表："+id+"--" + u2);
 
+            long uid = new SnowflakeIdWorker(0, 0).nextId();
+            user = new User(uid, money);
             userService.save(user, 0);
-            User u1 = userService.query(id, 0);
-            System.out.println("读写分离：" + u1);
+            User u1 = userService.query(uid, 0);
+            System.out.println("读写分离："+uid+"--" + u1);
 
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
         }
 
 
