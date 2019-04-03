@@ -32,7 +32,7 @@ public class JDBCShardingRoute extends RouteImpl {
         Object param = params[0];
 
         String srcSql = param.toString();
-        logger.debug("before sql-->" + srcSql);
+        logger.info("before sql-->" + srcSql);
 
         String targetSql = null;
 
@@ -43,7 +43,7 @@ public class JDBCShardingRoute extends RouteImpl {
 
 		/* 解析sql语句中的路由条件 */
         Object shardingKey = ResolveRouteValue.getRoute(srcSql, 1);
-        logger.debug("parse sharding key(before) is : "+shardingKey);
+        logger.info("parse sharding key(before) is : "+shardingKey);
         if ((shardingKey instanceof String)
                 && (shardingKey.toString().length() > 0)
                 && (shardingKey.toString().startsWith("'"))
@@ -52,9 +52,9 @@ public class JDBCShardingRoute extends RouteImpl {
             key = key.substring(1, key.length() - 1);
             shardingKey = key;
         }
-        logger.debug("parse sharding key(after) is : "+shardingKey);
+        logger.info("parse sharding key(after) is : "+shardingKey);
 
-        logger.debug("src sql：" + srcSql + " and the sharding key is：" + shardingKey);
+        logger.info("src sql：" + srcSql + " and the sharding key is：" + shardingKey);
 
         Rule dbRule = super.getDbRule();
 

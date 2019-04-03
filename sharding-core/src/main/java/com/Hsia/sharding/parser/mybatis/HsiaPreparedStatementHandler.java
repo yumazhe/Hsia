@@ -27,16 +27,19 @@ public class HsiaPreparedStatementHandler extends PreparedStatementHandler {
         // String sql = boundSql.getSql();//原生逻辑
 
         //TODO 通过上下文获取sql
-        String sql = SqlContextHolder.getInstance().getExecuteSql();
-        if(sql == null || sql.trim().equals("")){
-            sql = boundSql.getSql();
+        String sql = null;
+        try {
+            sql = SqlContextHolder.getInstance().getExecuteSql();
+            if (sql == null || sql.trim().equals("")) {
+                sql = boundSql.getSql();
+            }
+        } finally {
+            SqlContextHolder.getInstance().clearExecuteSql();
         }
 
-        if(sql == null || sql.trim().equals("")){
+        if (sql == null || sql.trim().equals("")) {
             throw new SQLException("the execute sql must not be null. ");
         }
-        System.out.println("target: "+sql);
-        System.out.println("src: "+boundSql.getSql());
         /*************************以下为原装代码**********************************/
 
 

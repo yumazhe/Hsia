@@ -27,7 +27,7 @@ public class DatasourceGroup extends AbstractRoutingDataSource {
 		int index = -1;
 		/* 获取存放在ThreadLocal中的数据源索引 */
 		index = dataSourceHolder.getDataSourceIndex();
-		logger.debug("the datasource index is : --> " + index);
+		logger.info("the datasource index is : --> " + index);
 		return index;
 	}
 }

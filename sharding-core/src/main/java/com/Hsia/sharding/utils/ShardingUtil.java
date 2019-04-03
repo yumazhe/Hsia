@@ -199,10 +199,10 @@ public class ShardingUtil {
 
 		Integer index ;
 		if (sqlType){// 写库
-			logger.debug("the database's type is WRITE");
+			logger.info("the database's type is WRITE");
 			index = Integer.parseInt(write_index);
 		} else {// 读库
-			logger.debug("the database's type is READ");
+			logger.info("the database's type is READ");
 			index = Integer.parseInt(read_index);
 		}
 

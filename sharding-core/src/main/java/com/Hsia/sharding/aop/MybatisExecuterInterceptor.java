@@ -89,7 +89,7 @@ public class MybatisExecuterInterceptor implements Interceptor {
                 if (shardingRule.getDbQuantity() > 1) {// 多库 分表
                     //创建一个数组
                     String routeKey = shardingRule.getRouteKey();
-                    logger.debug("the route key is [" + routeKey + "]");
+                    logger.info("the route key is [" + routeKey + "]");
                     Object routeValue = null;
 
                     if (parameter instanceof Map) {
@@ -111,7 +111,7 @@ public class MybatisExecuterInterceptor implements Interceptor {
                         //本插件将会报错 the route value must not be null
                         throw new SqlParserException("the route value must not be null, please set it. ");
                     }
-                    logger.debug("the sql is [ " + srcSql + " ] and the route key is : " + routeKey + " and the route value is : " + routeValue);
+                    logger.info("the sql is [ " + srcSql + " ] and the route key is : " + routeKey + " and the route value is : " + routeValue);
 
                     Object[] p = new Object[]{srcSql, routeValue};
 
@@ -132,7 +132,6 @@ public class MybatisExecuterInterceptor implements Interceptor {
 
                 } else {// 单库 分表
                     final int index = ShardingUtil.getBeginIndex(shardingRule, SqlResolve.sqlIsUpdate(srcSql));
-                    SqlContextHolder.getInstance().clearExecuteSql();
                     dataSourceHolder.setDataSourceIndex(index);
                 }
             }
@@ -172,7 +171,7 @@ public class MybatisExecuterInterceptor implements Interceptor {
             DataSource dataSource = environment.getDataSource();
             //如果SqlSessionTemplate持有的不是 com.qishiliang.sharding.route.impl.DatasourceGroup 动态数据源,则不进行数据路由操作
             flag = dataSource instanceof DatasourceGroup;
-            logger.debug(flag ? "the datasource IS sharding datasource." : "the datasource IS NOT sharding datasource.");
+            logger.info(flag ? "the datasource IS sharding datasource." : "the datasource IS NOT sharding datasource.");
         } catch (Exception e) {
             throw new SqlParserException("the datasource is wrong.", e);
         }

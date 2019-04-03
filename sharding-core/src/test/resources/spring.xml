@@ -17,9 +17,11 @@
 		</property>
 	</bean>
 	
-	<!-- 配置Mybatis的文件 ，mapperLocations配置**Mapper.xml文件位置，configLocation配置mybatis-config文件位置 -->
+	<!-- 配置Mybatis的文件 ，mapperLocations配置**Mapper.xml文件位置，configLocation配置mybatis-config文件位置
+	 org.mybatis.spring.SqlSessionFactoryBean
+	 -->
 	<!--多数据源，分库分表-->
-	<bean id="multiSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="multiSqlSessionFactory" class="com.Hsia.sharding.parser.mybatis.HsiaSqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSourceGroup" />
 		<property name="mapperLocations" value="classpath:mapper/multi.xml" />
 		<property name="plugins">
@@ -37,7 +39,7 @@
 
 
 	<!--单数据源 读写分离-->
-	<bean id="singleSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="singleSqlSessionFactory" class="com.Hsia.sharding.parser.mybatis.HsiaSqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSourceGroupForRW" />
 		<property name="mapperLocations" value="classpath:mapper/single.xml" />
 		<property name="plugins" >

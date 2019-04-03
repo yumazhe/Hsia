@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
  */
 public class SnowflakeIdWorker {
 	
-	private static Logger logger = Logger.getLogger(SnowflakeIdWorker.class);
 
 	// ==============================Fields===========================================
 	/** 开始时间戳 (2015-01-01) */
