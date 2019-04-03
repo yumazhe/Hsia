@@ -26,8 +26,8 @@ Use Rules：
         <property name="write_index" value="0" /><!-- 写库索引 -->
         <property name="read_index" value="0" /><!-- 读库索引 -->
         <property name="dbQuantity" value="4" /><!-- 数据库数量 -->
-        <property name="tbQuantity" value="4" /><!-- 单库中表的数量 -->
-        <property name="routeKey" value="id" /><!-- 指定路由主键，如果没有指定则全局扫描 -->
+        <property name="tbQuantity" value="4" /><!-- 表的总数量, 默认单个数据库中表按序索引 0 - n -->
+        <property name="routeKey" value="id" /><!-- 指定路由主键，如果没有指定会抛出异常(应为导致全局扫描，性能低下) -->
       </bean>
       
       <bean id="dataSourceGroup" class="com.Hsia.sharding.dataSource.DatasourceGroup">
