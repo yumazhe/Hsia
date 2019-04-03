@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.Hsia.sharding.parser.mybatis;
+package com.Hsia.sharding.plugins.mybatis;
 
 import org.apache.ibatis.binding.MapperRegistry;
 import org.apache.ibatis.builder.CacheRefResolver;
@@ -504,12 +504,13 @@ public class HsiaConfiguration extends Configuration {
         return languageRegistry;
     }
 
-//    public void setDefaultScriptingLanguage(Class<?> driver) {
-//        if (driver == null) {
-//            driver = XMLLanguageDriver.class;
-//        }
-//        getLanguageRegistry().setDefaultDriverClass(driver);
-//    }
+    public void setDefaultScriptingLanguage(Class<? extends LanguageDriver> driver) {
+        if (driver == null) {
+            driver = XMLLanguageDriver.class;
+        }
+
+        this.getLanguageRegistry().setDefaultDriverClass(driver);
+    }
 
     public LanguageDriver getDefaultScriptingLanguageInstance() {
         return languageRegistry.getDefaultDriver();
@@ -539,7 +540,7 @@ public class HsiaConfiguration extends Configuration {
     }
 
     public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
-        //TODO
+        //TODO 自定义路由处理器
         StatementHandler statementHandler = new HsiaRoutingStatementHandler(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
         statementHandler = (StatementHandler) interceptorChain.pluginAll(statementHandler);
         return statementHandler;

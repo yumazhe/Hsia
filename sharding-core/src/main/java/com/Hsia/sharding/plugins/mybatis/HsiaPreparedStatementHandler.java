@@ -1,4 +1,4 @@
-package com.Hsia.sharding.parser.mybatis;
+package com.Hsia.sharding.plugins.mybatis;
 
 import com.Hsia.sharding.dataSource.SqlContextHolder;
 import org.apache.ibatis.executor.Executor;
@@ -14,7 +14,7 @@ import java.sql.*;
 /**
  * @Auther: yumazhe
  * @Date: 2019/4/2 17:18
- * @Description: 暂未想到优雅的解决方式，所有先改源码
+ * @Description: 重载源码中的instantiateStatement方法
  */
 public class HsiaPreparedStatementHandler extends PreparedStatementHandler {
 
@@ -24,8 +24,6 @@ public class HsiaPreparedStatementHandler extends PreparedStatementHandler {
 
     @Override
     protected Statement instantiateStatement(Connection connection) throws SQLException {
-        // String sql = boundSql.getSql();//原生逻辑
-
         //TODO 通过上下文获取sql
         String sql = null;
         try {
@@ -40,9 +38,10 @@ public class HsiaPreparedStatementHandler extends PreparedStatementHandler {
         if (sql == null || sql.trim().equals("")) {
             throw new SQLException("the execute sql must not be null. ");
         }
+
+
+
         /*************************以下为原装代码**********************************/
-
-
         if (mappedStatement.getKeyGenerator() instanceof Jdbc3KeyGenerator) {
             String[] keyColumnNames = mappedStatement.getKeyColumns();
             if (keyColumnNames == null) {

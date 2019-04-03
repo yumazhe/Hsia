@@ -1,7 +1,5 @@
 package com.Hsia.sharding.dataSource;
 
-import org.apache.log4j.Logger;
-
 /**
  * 
  * @ClassName: sqlContextHolder
@@ -12,8 +10,6 @@ import org.apache.log4j.Logger;
  */
 
 public class SqlContextHolder {
-
-	private static Logger logger = Logger.getLogger(SqlContextHolder.class);
 
 	static SqlContextHolder SqlContextHolder = null;
 
@@ -28,7 +24,6 @@ public class SqlContextHolder {
 				}
 			}
 		}
-		logger.info("the SqlContextHolder is: " + SqlContextHolder);
 		return SqlContextHolder;
 	}
 

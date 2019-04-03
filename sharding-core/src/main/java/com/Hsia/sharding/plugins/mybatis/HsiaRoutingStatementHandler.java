@@ -12,7 +12,7 @@
 *    See the License for the specific language governing permissions and
 *    limitations under the License.
 */
-package com.Hsia.sharding.parser.mybatis;
+package com.Hsia.sharding.plugins.mybatis;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -45,7 +45,7 @@ public class HsiaRoutingStatementHandler implements StatementHandler {
                 delegate = new SimpleStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql);
                 break;
             case PREPARED:
-                //TODO
+                //TODO 自定义预编译处理器
                 delegate = new HsiaPreparedStatementHandler(executor, ms, parameter, rowBounds, resultHandler, boundSql);
                 break;
             case CALLABLE:

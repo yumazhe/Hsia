@@ -9,14 +9,16 @@ import java.util.zip.CRC32;
 
 public class CommonUtil {
 
+	// 默认格式化类型
+	private static final int format_number = 4;
+
 	/**
 	 * 数字格式化 31 -> 0031
 	 * @param number
 	 * @return
 	 */
 	public static String completionNumberFormat(int number) {
-		DecimalFormat df = new DecimalFormat("0000");
-		String formatNumber = df.format(number);
+		String formatNumber = String.format("%0"+format_number+"d", number);
 		return formatNumber;
 	}
 
@@ -123,44 +125,9 @@ public class CommonUtil {
 
 
 	public static void main(String[] args) {
-		User user = new User(10, 20);
-		Object value = getObjectByReflect(user, "id");
-		System.out.println(value);
+		System.out.println(completionNumberFormat(1));
 	}
+
+
 }
 
-class User{
-
-	private int id;
-	private int money;
-
-	@Override
-	public String toString() {
-		return "User{" +
-				"id=" + id +
-				", money=" + money +
-				'}';
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getMoney() {
-		return money;
-	}
-
-	public void setMoney(int money) {
-		this.money = money;
-	}
-
-	public User(int id, int money) {
-
-		this.id = id;
-		this.money = money;
-	}
-}

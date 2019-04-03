@@ -12,10 +12,10 @@ package com.Hsia.sharding.exceptions;
 public class SqlParserException extends RuntimeException {
 	private static final long serialVersionUID = -3671607184598679934L;
 
-	public SqlParserException(String str) {
-		super(str);
+	public SqlParserException(String msg) {
+		super(msg);
 	}
-	public SqlParserException(String message, Throwable e) {
-		super(message, e);
+	public SqlParserException(String msg, Throwable e) {
+		super(msg, e);
 	}
 }
