@@ -20,14 +20,14 @@ public class JDBCShardingRoute extends RouteImpl {
 
     private static Logger logger = Logger.getLogger(JDBCShardingRoute.class);
 
-    @Autowired
-    protected ShardingRule shardingRule;
+//    @Autowired
+//    protected ShardingRule shardingRule;
 
     @Autowired
     private DataSourceContextHolder dataSourceHolder;
 
     @Override
-    public Object[] route(Object[] params, boolean sqlType) {
+    public Object[] route(Object[] params, boolean sqlType, ShardingRule shardingRule) {
 
         Object param = params[0];
 

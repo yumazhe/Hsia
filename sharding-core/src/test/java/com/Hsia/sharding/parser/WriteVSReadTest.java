@@ -1,6 +1,5 @@
 package com.Hsia.sharding.parser;
 
-import com.Hsia.sharding.utils.ShardingUtil;
 import org.junit.Test;
 
 public class WriteVSReadTest {

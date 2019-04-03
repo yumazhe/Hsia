@@ -75,18 +75,21 @@ public class PreparedStatementHandler extends BaseStatementHandler {
 
 	@Override
 	protected Statement instantiateStatement(Connection connection) throws SQLException {
-//		String sql = boundSql.getSql();//原生逻辑
-		
+//		 String sql = boundSql.getSql();//原生逻辑
+
 		//TODO 通过上下文获取sql
 		String sql = SqlContextHolder.getInstance().getExecuteSql();
 		if(sql == null || sql.trim().equals("")){
 			sql = boundSql.getSql();
 		}
-		
+
 		if(sql == null || sql.trim().equals("")){
 			throw new SQLException("the execute sql must not be null. ");
 		}
-		
+
+		/*************************以下为原装代码**********************************/
+
+
 		if (mappedStatement.getKeyGenerator() instanceof Jdbc3KeyGenerator) {
 			String[] keyColumnNames = mappedStatement.getKeyColumns();
 			if (keyColumnNames == null) {

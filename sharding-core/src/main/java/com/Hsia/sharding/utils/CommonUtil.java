@@ -123,12 +123,44 @@ public class CommonUtil {
 
 
 	public static void main(String[] args) {
-		String shardKey1 = "fc36ae31-af26-4c68-ae83-2c49ec0cfdb3";
-		String shardKey2 = "'fc36ae31-af26-4c68-ae83-2c49ec0cfdb3'";
-		long t1 = CommonUtil.crc32(CommonUtil.toByteArray(shardKey1));
-		System.out.println(t1);
+		User user = new User(10, 20);
+		Object value = getObjectByReflect(user, "id");
+		System.out.println(value);
+	}
+}
 
-		long t2 = CommonUtil.crc32(CommonUtil.toByteArray(shardKey2));
-		System.out.println(t2);
+class User{
+
+	private int id;
+	private int money;
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", money=" + money +
+				'}';
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
+	}
+
+	public User(int id, int money) {
+
+		this.id = id;
+		this.money = money;
 	}
 }

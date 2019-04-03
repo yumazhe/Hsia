@@ -29,7 +29,7 @@ public class JDBCExecuterInterceptor {
 
 	private Logger logger = Logger.getLogger(JDBCExecuterInterceptor.class);
 
-	@Autowired
+//	@Autowired
 	private ShardingRule shardingRule;
 
 	@Autowired
@@ -63,7 +63,7 @@ public class JDBCExecuterInterceptor {
 			Route shardingRoute = shardingRouteFactory.getRoute();
 			if (shardingRule.getDbQuantity() > 1){// 多库 分表
 
-				params = shardingRoute.route(params, true);
+				params = shardingRoute.route(params, true, shardingRule);
 
 			} else {// 单库 分表
 				final int index = ShardingUtil.getBeginIndex(shardingRule, true);
@@ -112,7 +112,7 @@ public class JDBCExecuterInterceptor {
 			Route shardingRoute = shardingRouteFactory.getRoute();
 			if (shardingRule.getDbQuantity() > 1){// 多库 分表
 
-				params = shardingRoute.route(params, false);
+				params = shardingRoute.route(params, false, shardingRule);
 
 			} else {// 单库 分表
 				final int index = ShardingUtil.getBeginIndex(shardingRule, false);

@@ -7,8 +7,6 @@
     <property name="dataSource" ref="dataSourceGroup" />
   </bean>
 
-
-
   <bean id="shardingRule" class="com.Hsia.sharding.route.ShardingRule">
   	<property name="write_index" value="0" /><!-- 写索引 -->
   	<property name="read_index" value="0" /><!-- 读索引 -->

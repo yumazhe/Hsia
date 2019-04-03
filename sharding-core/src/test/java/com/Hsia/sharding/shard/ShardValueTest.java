@@ -36,7 +36,7 @@ public class ShardValueTest {
 	public void testEvenlySharding(){
 		int n = 10000000;
 		int dbQuantity = 4;
-		int tbQuantity = 1024;
+		int tbQuantity = 16;
 		long start = System.currentTimeMillis();
 		for(int i=0; i<n; i++){
 //			String shardKey = i+"";

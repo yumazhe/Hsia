@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.Hsia.sharding.mapper.IUserMapper">
+
+    <resultMap id="userMap" type="com.Hsia.sharding.model.User">
+        <result column="id" property="id"></result>
+        <result column="money" property="money"></result>
+        <result column="create_time" property="createTime"></result>
+    </resultMap>
+
+    <!--注册用户-->
+    <insert id="save" parameterType="com.Hsia.sharding.model.User">
+        insert into t_sharding
+        (id, money)
+        VALUES
+        (#{id}, #{money})
+    </insert>
+
+    <select id="query" resultMap="userMap">
+        select id, money, create_time from t_sharding where id = #{id}
+    </select>
+
+</mapper>

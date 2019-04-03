@@ -56,7 +56,7 @@ public class SetTableName {
 		final String newTableName = ShardingUtil.getRouteName(tbIndex, tbName);
 
 		String targetSql = sql.replaceFirst(tbName, newTableName);
-		logger.debug("单库多表模式下，用于执行的正式sql为：--> "+targetSql);
+		logger.debug("in single db, the target sql is：--> "+targetSql);
 		return targetSql;
 	}
 }

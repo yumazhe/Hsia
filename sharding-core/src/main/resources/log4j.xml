@@ -37,13 +37,16 @@
 		</layout>
 	</appender>
 
-	<!-- <logger name="org.apache.zookeeper">
+	 <logger name="org.apache.zookeeper">
 		<level value="warn" />
-	</logger> -->
+	</logger>
+	<logger name="com.alibaba.druid">
+		<level value="warn" />
+	</logger>
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="debug" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 		<appender-ref ref="filelog_appender" />
 		<appender-ref ref="filelog_daily" />

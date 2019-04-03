@@ -19,14 +19,14 @@ import com.Hsia.sharding.parser.ResolveTableName;
 @Component
 public class MybatisShardingRoute extends RouteImpl {
 
-	@Autowired
-	protected ShardingRule shardingRule;
+//	@Autowired
+//	protected ShardingRule shardingRule;
 
 	@Autowired
 	private DataSourceContextHolder dataSourceHolder;
 
 	@Override
-	public Object[] route(Object[] params, boolean sqlType) {
+	public Object[] route(Object[] params, boolean sqlType, ShardingRule shardingRule) {
 
 		String srcSql = (String) params[0];//源sql
 

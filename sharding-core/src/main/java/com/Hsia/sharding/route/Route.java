@@ -21,5 +21,5 @@ public interface Route {
 	 * @return Object[]    返回类型 
 	 * @throws
 	 */
-	public Object[] route(Object[] params, boolean sqlType);
+	public Object[] route(Object[] params, boolean sqlType, ShardingRule shardingRule);
 }

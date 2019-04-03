@@ -47,7 +47,7 @@ public class MybatisExecuterInterceptor_bak implements Interceptor {
 
 	private Logger logger = Logger.getLogger(MybatisExecuterInterceptor_bak.class);
 
-	@Autowired
+//	@Autowired
 	private ShardingRule shardingRule;
 
 	@Autowired
@@ -92,7 +92,7 @@ public class MybatisExecuterInterceptor_bak implements Interceptor {
 						Object[] p = new Object[]{srcSql, routeValue}; 
 
 						Route shardingRoute = shardingRouteFactory.getRoute();
-						Object[] sql = shardingRoute.route(p, SqlResolve.sqlIsUpdate(srcSql));
+						Object[] sql = shardingRoute.route(p, SqlResolve.sqlIsUpdate(srcSql), shardingRule);
 						String targetSql = (String)sql[0];// 获取目标sql
 
 						//根据反射获取对象内容
