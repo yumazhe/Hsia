@@ -1,8 +1,10 @@
 package com.Hsia.sharding.route;
 
 import com.Hsia.sharding.dataSource.DataSourceContextHolder;
+import com.Hsia.sharding.dataSource.DatasourceGroup;
 import com.Hsia.sharding.route.tb.SetTableName;
 import com.Hsia.sharding.utils.ShardingUtil;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +21,7 @@ import com.Hsia.sharding.parser.ResolveTableName;
 @Component
 public class MybatisShardingRoute extends RouteImpl {
 
-//	@Autowired
-//	protected ShardingRule shardingRule;
+	private static Logger logger = Logger.getLogger(MybatisShardingRoute.class);
 
 	@Autowired
 	private DataSourceContextHolder dataSourceHolder;
@@ -53,9 +54,11 @@ public class MybatisShardingRoute extends RouteImpl {
 		targetSql = SetTableName.setRouteTableName(shardingRule, dbIndex, tbIndex, dbQuantity, tbQuantity, tbName, srcSql);
 
 		final int beginIndex = ShardingUtil.getBeginIndex(shardingRule, sqlType);
-
+		dbIndex = dbIndex + beginIndex;
 		/* 切换数据源索引 */
-		dataSourceHolder.setDataSourceIndex((dbIndex + beginIndex));
+		dataSourceHolder.setDataSourceIndex(dbIndex);
+
+		logger.info("the datasource index is : --> " + dbIndex + " and the table index is : -->"+tbIndex);
 
 		return new Object[]{targetSql};
 	}

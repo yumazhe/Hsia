@@ -66,7 +66,7 @@ public class ShardingUtil {
 	 * @throws
 	 */
 	public static int getDataBaseIndex(Object shardKey, int dbQuantity, int tbQuantity) {
-		Long routeKey = CommonUtil.crc32(CommonUtil.toByteArray(shardKey));
+		Long routeKey = CommonUtil.crc32(shardKey);
 		// shardKey % tbSize / dbSize 
 		int index = (int) ((routeKey % tbQuantity) / dbQuantity);
 		return index;
@@ -85,7 +85,7 @@ public class ShardingUtil {
 	 * @throws
 	 */
 	public static int getTableIndex(Object shardKey, int dbQuantity, int tbQuantity) {
-		Long routeKey = CommonUtil.crc32(CommonUtil.toByteArray(shardKey));
+		Long routeKey = CommonUtil.crc32(shardKey);
 		// shardKey % tbSize % dbSize
 		int index =	(int) (routeKey % tbQuantity % dbQuantity);
 		return index;

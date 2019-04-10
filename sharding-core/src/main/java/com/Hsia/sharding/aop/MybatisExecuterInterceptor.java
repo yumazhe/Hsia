@@ -111,13 +111,13 @@ public class MybatisExecuterInterceptor implements Interceptor {
                         //本插件将会报错 the route value must not be null
                         throw new SqlParserException("the route value must not be null, please set it. ");
                     }
-                    logger.info("the sql is [ " + srcSql + " ] and the route key is : " + routeKey + " and the route value is : " + routeValue);
 
                     Object[] p = new Object[]{srcSql, routeValue};
 
                     Route shardingRoute = shardingRouteFactory.getRoute();
                     Object[] sql = shardingRoute.route(p, SqlResolve.sqlIsUpdate(srcSql), shardingRule);
                     String targetSql = (String) sql[0];// 获取目标sql
+                    logger.info("the route key is : [" + routeKey + "] and the route value is : [" + routeValue + "] and the target sql is [ " + srcSql + " ]");
                     /*
 					 * org.apache.ibatis.executor.statement.PreparedStatementHandler.instantiateStatement(Connection connection)
 					 */
