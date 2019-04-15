@@ -146,11 +146,11 @@
 	<distributionManagement>
 		<repository>
 			<id>nexus-releases</id>
-			<url>http://10.13.0.128:8982/repository/nexus-releases/</url>
+			<url>http://Hsia_Sharding.nexus:8982/repository/nexus-releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
-			<url>http://10.13.0.128:8982/repository/nexus-snapshots/</url>
+			<url>http://Hsia_Sharding.nexus:8982/repository/nexus-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
