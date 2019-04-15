@@ -20,7 +20,7 @@ import com.Hsia.sharding.utils.ShardingUtil;
  * 
  * @ClassName: SQLExecuterInterceptor
  * @Description: AOP 基于spring的jdbc 设置 切片 代理，数据路由入口
- * @author qsl. email：Hsia@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月6日 下午4:59:19
  *
  */

@@ -69,18 +69,18 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.3</version>
-			<optional>true</optional>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.26</version>
+			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.25</version>
-			<optional>true</optional>
+			<version>1.7.26</version>
+			<scope>provided</scope>
 		</dependency>
-		
 		
 		<!-- spring -->
 		<dependency>
@@ -142,4 +142,15 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus-releases</id>
+			<url>http://10.13.0.128:8982/repository/nexus-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<url>http://10.13.0.128:8982/repository/nexus-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>

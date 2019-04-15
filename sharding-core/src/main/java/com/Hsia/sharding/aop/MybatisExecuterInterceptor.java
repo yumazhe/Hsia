@@ -36,7 +36,7 @@ import com.Hsia.sharding.utils.ShardingUtil;
 /**
  * 注意：使用本拦截器，请将系统中自依赖的mybatis-x.x.x.jar屏蔽掉，否则，拦截器使用的mybatis版本将会被覆盖，导致功能缺失，分库分表无法实现
  *
- * @author qsl. email：Hsia@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  */
 @Intercepts({
         @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
