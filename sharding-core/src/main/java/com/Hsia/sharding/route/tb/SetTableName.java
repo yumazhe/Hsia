@@ -1,21 +1,22 @@
 package com.Hsia.sharding.route.tb;
 
 import com.Hsia.sharding.utils.ShardingUtil;
-import org.apache.log4j.Logger;
 
 import com.Hsia.sharding.route.ShardingRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
  * @ClassName: SetTableName
  * @Description: 数据路由前重设数据库表名,比如通用的表名为tab,那么重设后为tab_0000
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月5日 下午9:50:18
  *
  */
 public class SetTableName {
 
-	private static Logger logger = Logger.getLogger(SetTableName.class);
+	private static Logger logger = LoggerFactory.getLogger(SetTableName.class);
 
 	/**
 	 * 

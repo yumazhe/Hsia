@@ -5,12 +5,13 @@ import com.Hsia.sharding.parser.ResolveRouteValue;
 import com.Hsia.sharding.parser.ResolveTableName;
 import com.Hsia.sharding.route.tb.SetTableName;
 import com.Hsia.sharding.utils.ShardingUtil;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @ClassName: ShardingRoute
  * @Description: 数据库分库分表 实现类
  * @date 2016年3月6日 下午4:42:37
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JDBCShardingRoute extends RouteImpl {
 
-    private static Logger logger = Logger.getLogger(JDBCShardingRoute.class);
+    private static Logger logger = LoggerFactory.getLogger(JDBCShardingRoute.class);
 
 //    @Autowired
 //    protected ShardingRule shardingRule;

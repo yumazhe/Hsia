@@ -21,7 +21,8 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.Hsia.sharding.dataSource.DatasourceGroup;
@@ -35,7 +36,7 @@ import com.Hsia.sharding.utils.ShardingUtil;
 /**
  * 注意：使用本拦截器，请将系统中自依赖的mybatis-x.x.x.jar屏蔽掉，否则，拦截器使用的mybatis版本将会被覆盖，导致功能缺失，分库分表无法实现
  *
- * @author qsl
+ * @author qsl. email：Hsia@163.com
  */
 @Intercepts({
         @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
@@ -44,7 +45,7 @@ import com.Hsia.sharding.utils.ShardingUtil;
 })
 public class MybatisExecuterInterceptor implements Interceptor {
 
-    private Logger logger = Logger.getLogger(MybatisExecuterInterceptor.class);
+    private Logger logger = LoggerFactory.getLogger(MybatisExecuterInterceptor.class);
 
     /**
      * 显示声明注入 set方法

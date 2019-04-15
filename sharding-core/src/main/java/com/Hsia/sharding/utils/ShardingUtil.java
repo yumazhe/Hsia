@@ -3,8 +3,6 @@ package com.Hsia.sharding.utils;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.ast.statement.SQLDeleteStatement;
@@ -17,18 +15,20 @@ import com.alibaba.druid.sql.dialect.mysql.parser.MySqlStatementParser;
 import com.alibaba.druid.sql.parser.SQLStatementParser;
 import com.Hsia.sharding.exceptions.SqlParserException;
 import com.Hsia.sharding.route.ShardingRule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @ClassName: ShardingUtil
  * @Description: 路由规则工具类
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月5日 下午9:20:54
  *
  */
 public class ShardingUtil {
 
-	private static Logger logger = Logger.getLogger(ShardingUtil.class);
+	private static Logger logger = LoggerFactory.getLogger(ShardingUtil.class);
 
 	public static String getDBTBIndex(String key, int dbSize, int tbSize, String dbName, String tbName){
 		int dbIndex = ShardingUtil.getDataBaseIndex(key, dbSize, tbSize);
@@ -58,6 +58,11 @@ public class ShardingUtil {
 	 * 
 	 * @Title: getDataBaseIndex 
 	 * @Description: 根据分库规则计算出数据源索引  TODO 可根据自己的规则进行定制
+	 * 				 每个数据库的索引都是从0000开始
+     * 				  shardKey % tbSize 得到 0~(tbSize-1)
+     * 				 0~(tbSize-1) % dbSize 得到 0~(dbSize - 1)
+     * 				 正好是库的索引
+     *
 	 * @param @param shardKey
 	 * @param @param dbQuantity
 	 * @param @param tbQuantity
@@ -67,8 +72,8 @@ public class ShardingUtil {
 	 */
 	public static int getDataBaseIndex(Object shardKey, int dbQuantity, int tbQuantity) {
 		Long routeKey = CommonUtil.crc32(shardKey);
-		// shardKey % tbSize / dbSize 
-		int index = (int) ((routeKey % tbQuantity) / dbQuantity);
+		// shardKey % tbSize % dbSize
+		int index = (int) (routeKey % tbQuantity % dbQuantity);
 		return index;
 	}
 
@@ -76,6 +81,12 @@ public class ShardingUtil {
 	 * 
 	 * @Title: getTbIndex 
 	 * @Description: 根据分片规则计算出数据库表索引  TODO 可根据自己的规则进行定制
+	 * 				 每个库中表的索引都是从0000开始
+     * 				 shardKey % tbSize 得到 0~(tbSize-1)
+     * 				 0~(tbSize-1) / dbSize 得到 0~(每个库中表的数量 - 1)
+     * 				 正好是单库中表的索引
+     *
+     *
 	 * @param @param shardKey 路由键值
 	 * @param @param dbQuantity 数据库数量
 	 * @param @param tbQuantity 数据表数量
@@ -86,8 +97,8 @@ public class ShardingUtil {
 	 */
 	public static int getTableIndex(Object shardKey, int dbQuantity, int tbQuantity) {
 		Long routeKey = CommonUtil.crc32(shardKey);
-		// shardKey % tbSize % dbSize
-		int index =	(int) (routeKey % tbQuantity % dbQuantity);
+		// shardKey % tbSize / dbSize
+		int index =	(int) (routeKey % tbQuantity / dbQuantity);
 		return index;
 
 	}

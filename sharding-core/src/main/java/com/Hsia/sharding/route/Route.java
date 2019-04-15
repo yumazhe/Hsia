@@ -4,7 +4,7 @@ package com.Hsia.sharding.route;
  * 
  * @ClassName: Route
  * @Description: 分库分表路由模式接口
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月6日 上午10:09:15
  *
  */

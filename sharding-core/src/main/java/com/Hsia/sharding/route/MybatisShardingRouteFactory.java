@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
  * 
  * @ClassName: HorizontalFacadeFactory
  * @Description: 水平分库,水平分片模式的工厂类
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月6日 下午4:34:29
  *
  */

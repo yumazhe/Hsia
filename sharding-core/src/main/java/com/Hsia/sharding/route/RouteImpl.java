@@ -10,7 +10,7 @@ import com.Hsia.sharding.route.db.DbRuleFactory;
  * 
  * @ClassName: RouteImpl
  * @Description: 分库分表模式的外观类
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月6日 上午10:10:02
  *
  */

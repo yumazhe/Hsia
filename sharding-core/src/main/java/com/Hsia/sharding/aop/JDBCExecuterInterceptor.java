@@ -1,10 +1,11 @@
 package com.Hsia.sharding.aop;
 
 import com.Hsia.sharding.route.Route;
-import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,9 +28,8 @@ import com.Hsia.sharding.utils.ShardingUtil;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class JDBCExecuterInterceptor {
 
-	private Logger logger = Logger.getLogger(JDBCExecuterInterceptor.class);
+	private Logger logger = LoggerFactory.getLogger(JDBCExecuterInterceptor.class);
 
-//	@Autowired
 	private ShardingRule shardingRule;
 
 	@Autowired

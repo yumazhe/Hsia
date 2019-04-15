@@ -6,7 +6,7 @@ import org.junit.Test;
  * 
  * @ClassName: SetTabNameTest
  * @Description: 替换路由表
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月6日 下午4:15:59
  *
  */

@@ -7,7 +7,7 @@ import com.Hsia.sharding.route.RuleFactory;
  * 
  * @ClassName: TbRuleFactory
  * @Description: 分表路由规则工厂类
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月7日 上午10:23:17
  *
  */

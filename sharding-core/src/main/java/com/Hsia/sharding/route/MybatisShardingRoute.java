@@ -1,10 +1,10 @@
 package com.Hsia.sharding.route;
 
 import com.Hsia.sharding.dataSource.DataSourceContextHolder;
-import com.Hsia.sharding.dataSource.DatasourceGroup;
 import com.Hsia.sharding.route.tb.SetTableName;
 import com.Hsia.sharding.utils.ShardingUtil;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,14 +14,14 @@ import com.Hsia.sharding.parser.ResolveTableName;
  * 
  * @ClassName: ShardingRoute
  * @Description: 数据库分库分表 实现类
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月6日 下午4:42:37
  *
  */
 @Component
 public class MybatisShardingRoute extends RouteImpl {
 
-	private static Logger logger = Logger.getLogger(MybatisShardingRoute.class);
+	private static Logger logger = LoggerFactory.getLogger(MybatisShardingRoute.class);
 
 	@Autowired
 	private DataSourceContextHolder dataSourceHolder;

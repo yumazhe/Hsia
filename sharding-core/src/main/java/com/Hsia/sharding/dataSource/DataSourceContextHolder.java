@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
  * 
  * @ClassName: DataSourceContextHolder
  * @Description: 数据源上下文持有
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月8日 上午9:53:19
  *
  */

@@ -1,7 +1,5 @@
 package com.Hsia.sharding.utils;
 
-import org.apache.log4j.Logger;
-
 /**
  * Twitter_Snowflake<br>
  * SnowFlake的结构如下(每部分用-分开):<br>

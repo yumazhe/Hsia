@@ -7,7 +7,7 @@ import com.Hsia.sharding.utils.ShardingUtil;
  * 
  * @ClassName: TbRule
  * @Description: 解析分表规则后计算分表索引
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月7日 上午10:20:36
  *
  */

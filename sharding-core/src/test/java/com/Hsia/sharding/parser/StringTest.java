@@ -5,7 +5,7 @@ import org.junit.Test;
 /**
  * @ClassName: StringTest
  * @Description:
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月5日 下午9:20:54
  */
 public class StringTest {

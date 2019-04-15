@@ -19,7 +19,7 @@ import com.Hsia.sharding.exceptions.SqlParserException;
  * 
  * @ClassName: ResolveRouteValue
  * @Description: 解析sql语句中的路由参数
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月5日 下午9:20:54
  *
  */

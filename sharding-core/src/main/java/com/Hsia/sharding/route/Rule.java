@@ -4,7 +4,7 @@ package com.Hsia.sharding.route;
  * 
  * @ClassName: Rule
  * @Description: 路由规则接口
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月6日 上午10:12:31
  *
  */

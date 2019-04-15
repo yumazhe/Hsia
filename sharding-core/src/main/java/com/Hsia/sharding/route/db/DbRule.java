@@ -7,7 +7,7 @@ import com.Hsia.sharding.utils.ShardingUtil;
  * 
  * @ClassName: DbRule
  * @Description: 解析分库规则后计算数据源索引
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月5日 下午4:01:02
  *
  */
