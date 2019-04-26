@@ -22,4 +22,18 @@
         select id, money, create_time from t_sharding where id = #{id}
     </select>
 
+    <!--修改-->
+    <update id="update">
+        update t_sharding set money = #{money} where id = #{id}
+    </update>
+
+    <!--批量修改-->
+    <update id="updateMulti">
+        update t_sharding set money = #{money} where id in
+        <foreach item="i" index="index" collection="id"
+                 open="(" separator="," close=")">
+            #{i}
+        </foreach>
+    </update>
+
 </mapper>

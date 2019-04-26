@@ -1,5 +1,8 @@
 package com.Hsia.sharding.sharding;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -88,5 +91,26 @@ public class ShardValueTest {
         logger.info("数据库2 表1：" + count_2_1.get());
         logger.info("数据库3 表0：" + count_3_0.get());
         logger.info("其他数据：" + other.get());
+    }
+
+    @Test
+    public void multi() {
+        List<Object> values = new ArrayList<>();
+        values.add(123456);
+        values.add(454512);
+        values.add(84563361);
+        values.add(74114647);
+        values.add(74114647);
+        values.add(741134647);
+        values.add(7411344647l);
+        values.add(7411435647l);
+        values.add(7411344647l);
+        int dbsize = 2;
+        int tbsize = 4;
+        Map<String, List<Object>> re
+                = ShardingUtil.parse(values, dbsize, tbsize);
+        for (Map.Entry<String, List<Object>> entry : re.entrySet()) {
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+        }
     }
 }

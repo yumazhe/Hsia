@@ -1,7 +1,7 @@
 package com.Hsia.sharding.route;
 
 /**
- * 
+ *
  * @ClassName: ShardingRule
  * @Description: 分库分表规则
  * @author qsl. email：Hsia_Sharding@163.com
@@ -10,8 +10,8 @@ package com.Hsia.sharding.route;
  */
 public class ShardingRule {
 
-	private String write_index; //数据库写库 索引 
-	private String read_index; //数据库读库索引 
+	private String write_index; //数据库写库 索引
+	private String read_index; //数据库读库索引
 	private Integer dbQuantity;// 数据库数量
 	private Integer tbQuantity;// 数据表数量
 	private String routeKey; //路由主键

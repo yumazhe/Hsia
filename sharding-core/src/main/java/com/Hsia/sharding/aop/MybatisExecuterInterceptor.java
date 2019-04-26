@@ -1,5 +1,6 @@
 package com.Hsia.sharding.aop;
 
+import java.lang.reflect.Array;
 import java.util.Map;
 import java.util.Properties;
 
@@ -62,8 +63,6 @@ public class MybatisExecuterInterceptor implements Interceptor {
      * </bean>
      *
      */
-
-//    @Autowired
     private ShardingRule shardingRule;
 
     @Autowired
@@ -91,11 +90,18 @@ public class MybatisExecuterInterceptor implements Interceptor {
                     //创建一个数组
                     String routeKey = shardingRule.getRouteKey();
                     logger.info("the route key is [" + routeKey + "]");
+                    String[] routeKeys = routeKey.split(",");
                     Object routeValue = null;
 
                     if (parameter instanceof Map) {
                         Map<String, Object> parameterMap = (Map<String, Object>) parameter;
                         routeValue = parameterMap.get(routeKey);
+
+                        //TODO 判断是否为数组 针对批量操作，前提是 参数值需要提前进行归类
+                        if (routeValue.getClass().isArray()) {
+                            routeValue= Array.get(routeValue, 0);
+                        }
+
                     }else if(parameter instanceof Integer
                             || parameter instanceof Long
                             || parameter instanceof Double
@@ -118,7 +124,7 @@ public class MybatisExecuterInterceptor implements Interceptor {
                     Route shardingRoute = shardingRouteFactory.getRoute();
                     Object[] sql = shardingRoute.route(p, SqlResolve.sqlIsUpdate(srcSql), shardingRule);
                     String targetSql = (String) sql[0];// 获取目标sql
-                    logger.info("the route key is : [" + routeKey + "] and the route value is : [" + routeValue + "] and the target sql is [ " + srcSql + " ]");
+                    logger.info("the route key is : [" + routeKey + "] and the route value is : [" + routeValue + "] and the target sql is [ " + targetSql + " ]");
                     /*
 					 * org.apache.ibatis.executor.statement.PreparedStatementHandler.instantiateStatement(Connection connection)
 					 */

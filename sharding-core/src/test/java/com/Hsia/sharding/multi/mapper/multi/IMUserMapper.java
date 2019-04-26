@@ -13,4 +13,8 @@ import org.apache.ibatis.annotations.Param;
 public interface IMUserMapper {
     void save(User user);
     User query(@Param("id") long id, @Param("status") int status);
+
+    void update(@Param("id") long id, @Param("money") int money);
+
+    void updateMulti(@Param("id") Long[] ids, @Param("money") int money);
 }

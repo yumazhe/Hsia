@@ -37,4 +37,14 @@ public class UserDao implements IUserDao {
 
         }
     }
+
+    @Override
+    public void update(long id, int money) {
+        muserMapper.update(id, money);
+    }
+
+    @Override
+    public void updateMulti(Long[] ids, int money) {
+        muserMapper.updateMulti(ids, money);
+    }
 }

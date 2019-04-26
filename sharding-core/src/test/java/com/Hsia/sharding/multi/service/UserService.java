@@ -25,4 +25,14 @@ public class UserService implements  IUserService {
     public User query(long id, int num) {
         return userDao.query(id, num);
     }
+
+    @Override
+    public void update(long id, int money) {
+        userDao.update(id, money);
+    }
+
+    @Override
+    public void updateMulti(Long[] ids, int money) {
+        userDao.updateMulti(ids, money);
+    }
 }

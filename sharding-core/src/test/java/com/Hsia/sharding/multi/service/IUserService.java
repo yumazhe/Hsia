@@ -13,4 +13,8 @@ public interface IUserService {
     void save(User user, int num);
 
     User query(long id, int num);
+
+    void update(long id, int money);
+
+    void updateMulti(Long[] ids, int money);
 }
