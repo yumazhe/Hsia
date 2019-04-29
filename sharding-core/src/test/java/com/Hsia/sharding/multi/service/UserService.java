@@ -2,6 +2,7 @@ package com.Hsia.sharding.multi.service;
 
 import com.Hsia.sharding.multi.dao.IUserDao;
 import com.Hsia.sharding.multi.model.User;
+import com.Hsia.sharding.utils.ShardingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,17 @@ public class UserService implements  IUserService {
     }
 
     @Override
-    public void updateMulti(Long[] ids, int money) {
-        userDao.updateMulti(ids, money);
+    public void updateMulti(Long[] ids, int money, int type) {
+        userDao.updateMulti(ids, money, type);
+    }
+
+    @Override
+    public void updateMulti(int money, int type) {
+        userDao.updateMulti(money, type);
+    }
+
+    @Override
+    public void updateMultiFullTableScan(int money, int tbindex) {
+        userDao.updateMultiFullTableScan(money, ShardingUtil.formatIndex(tbindex));
     }
 }

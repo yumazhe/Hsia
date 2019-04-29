@@ -28,12 +28,25 @@
     </update>
 
     <!--批量修改-->
+    <!--update table set index = case id when 100 then 0 when 101 then 1 end where ID in (100,101);-->
     <update id="updateMulti">
-        update t_sharding set money = #{money} where id in
-        <foreach item="i" index="index" collection="id"
-                 open="(" separator="," close=")">
-            #{i}
+        update t_sharding set money=
+        <foreach collection="id" item="item" index="index" open="case id" close="end" separator=" " >
+            when #{item} then #{money}
         </foreach>
+        where id in
+        <foreach collection="id" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="update_multi">
+        update t_sharding set money = #{money}
+    </update>
+
+    <!---->
+    <update id="updateMultiFullTableScan">
+        update t_sharding_${index} set money = #{money}
     </update>
 
 </mapper>

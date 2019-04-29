@@ -6,30 +6,30 @@ public class ResolveTableNameTest {
 
 	@Test 
 	public void getTabNamebySelect() {
-		String sql = "SELECT * FROM userinfo_test WHERE uid = 10000 AND name = xiaolang";
+		String sql = "SELECT * FROM t_sharding where id = ? and name = ? and age = ?";
 		System.out.println(ResolveTableName.getTableName(sql));
-		sql = "SELECT * FROM userinfo_test u WHERE u.uid = 10000 AND u.name = xiaolang";
+		sql = "SELECT * FROM t_sharding u WHERE u.uid = 10000 AND u.name = xiaolang";
 		System.out.println(ResolveTableName.getTableName(sql));
 	}
 
 	@Test 
 	public void getTabNamebyInsert() {
-		String sql = "INSERT INTO userinfo_test(uid,name) VALUES(10000,xiaolang)";
+		String sql = "INSERT INTO t_sharding(uid,name) VALUES(10000,xiaolang)";
 		System.out.println(ResolveTableName.getTableName(sql));
 	}
 
 	public @Test void getTabNamebyUpdate() {
-		String sql = "UPDATE userinfo_test SET sex = ? WHERE uid=10000 AND name=xiaolang";
+		String sql = "UPDATE t_sharding SET sex = ? WHERE uid=10000 AND name=xiaolang";
 		System.out.println(ResolveTableName.getTableName(sql));
-		sql = "UPDATE userinfo_test u SET u.sex = ? WHERE u.uid=10000 AND u.name=xiaolang";
+		sql = "UPDATE t_sharding u SET u.sex = ? WHERE u.uid=10000 AND u.name=xiaolang";
 		System.out.println(ResolveTableName.getTableName(sql));
 	}
 
 	@Test 
 	public void getTabNamebyDelete() {
-		String sql = "DELETE FROM userinfo_test WHERE uid=10000 AND name=xiaolang";
+		String sql = "DELETE FROM t_sharding WHERE uid=10000 AND name=xiaolang";
 		System.out.println(ResolveTableName.getTableName(sql));
-		sql = "DELETE FROM userinfo_test u WHERE u.uid=10000 AND u.name=xiaolang";
+		sql = "DELETE FROM t_sharding u WHERE u.uid=10000 AND u.name=xiaolang";
 		System.out.println(ResolveTableName.getTableName(sql));
 	}
 }

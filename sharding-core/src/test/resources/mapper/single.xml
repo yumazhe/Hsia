@@ -21,4 +21,17 @@
         select id, money, create_time from t_sharding where id = #{id}
     </select>
 
+    <!--批量修改-->
+    <!--update table set index = case id when 100 then 0 when 101 then 1 end where ID in (100,101);-->
+    <update id="updateMulti">
+        update t_sharding set money=
+        <foreach collection="id" item="item" index="index" open="case id" close="end" separator=" " >
+            when #{item} then #{money}
+        </foreach>
+        where id in
+        <foreach collection="id" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
 </mapper>

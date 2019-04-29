@@ -1,9 +1,9 @@
 package com.Hsia.sharding.utils;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.ast.statement.SQLDeleteStatement;
@@ -16,6 +16,7 @@ import com.alibaba.druid.sql.dialect.mysql.parser.MySqlStatementParser;
 import com.alibaba.druid.sql.parser.SQLStatementParser;
 import com.Hsia.sharding.exceptions.SqlParserException;
 import com.Hsia.sharding.route.ShardingRule;
+import com.alibaba.druid.util.JdbcConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -243,5 +244,52 @@ public class ShardingUtil {
             indexMap.put(key, indexs);
         }
         return indexMap;
+    }
+
+    /**
+     * 判断sql是否包含路由条件
+     *
+     * @param sql
+     * @param key
+     * @return
+     */
+    public static boolean haveRouteKey(String sql, String key) {
+        if (sql == null || sql.trim().length() == 0)
+            throw new SqlParserException("sql must not be null");
+        String dbType = JdbcConstants.MYSQL;
+
+        //格式化输出
+        String result = SQLUtils.format(sql, dbType);
+
+        String[] sts = result.split(" ");
+
+        for (int i = 0; i < sts.length; i++)
+            if (sts[i].equalsIgnoreCase("?"))
+                if (sts[i - 2].equalsIgnoreCase(key))
+                    return true;
+        return false;
+    }
+
+
+    /**
+     * 格式化索引
+     *
+     * @param index
+     * @param format
+     * @return
+     */
+    public static String formatIndex(long index, int format) {
+        String end = String.format("%0" + format + "d", index);
+        return end;
+    }
+
+    /**
+     * 格式化索引
+     *
+     * @param index
+     * @return
+     */
+    public static String formatIndex(long index) {
+        return formatIndex(index, 4);
     }
 }

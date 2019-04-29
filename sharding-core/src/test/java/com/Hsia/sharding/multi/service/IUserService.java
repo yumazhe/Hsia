@@ -16,5 +16,9 @@ public interface IUserService {
 
     void update(long id, int money);
 
-    void updateMulti(Long[] ids, int money);
+    void updateMulti(Long[] ids, int money, int type);
+
+    void updateMulti(int money, int type);
+
+    void updateMultiFullTableScan(int money, int tbindex);
 }

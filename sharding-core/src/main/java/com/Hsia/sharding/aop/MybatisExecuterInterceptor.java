@@ -7,6 +7,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import com.Hsia.sharding.dataSource.DataSourceContextHolder;
+import com.Hsia.sharding.exceptions.ShardingRuleException;
 import com.Hsia.sharding.route.Route;
 import com.Hsia.sharding.utils.CommonUtil;
 import org.apache.ibatis.cache.CacheKey;
@@ -51,17 +52,16 @@ public class MybatisExecuterInterceptor implements Interceptor {
     /**
      * 显示声明注入 set方法
      * <bean id="executerInterceptor_multi" class="com.Hsia.sharding.aop.MybatisExecuterInterceptor">
-     *     <property name="shardingRule" ref="shardingRule_multi"/>
+     * <property name="shardingRule" ref="shardingRule_multi"/>
      * </bean>
-     *
+     * <p>
      * <bean id="shardingRule_multi" class="com.Hsia.sharding.route.ShardingRule">
-     *     <property name="write_index" value="0"/><!-- 写索引 -->
-     *     <property name="read_index" value="0"/><!-- 读索引 -->
-     *     <property name="dbQuantity" value="4"/><!-- 数据库总数量 -->
-     *     <property name="tbQuantity" value="16"/><!-- 表的总数量 -->
-     *     <property name="routeKey" value="id"/><!-- 指定路由主键，如果没有指定则全局扫描 -->
+     * <property name="write_index" value="0"/><!-- 写索引 -->
+     * <property name="read_index" value="0"/><!-- 读索引 -->
+     * <property name="dbQuantity" value="4"/><!-- 数据库总数量 -->
+     * <property name="tbQuantity" value="16"/><!-- 表的总数量 -->
+     * <property name="routeKey" value="id"/><!-- 指定路由主键，如果没有指定则全局扫描 -->
      * </bean>
-     *
      */
     private ShardingRule shardingRule;
 
@@ -84,58 +84,70 @@ public class MybatisExecuterInterceptor implements Interceptor {
                 BoundSql boundSql = mappedStatement.getBoundSql(parameter);
                 String srcSql = boundSql.getSql();
 
-                if (null == shardingRule) throw new RuntimeException("the shardingRule must not be null");
+                if (null == shardingRule) {
+                    throw new ShardingRuleException("the shardingRule must not be null, please set it.");
+                }
 
                 if (shardingRule.getDbQuantity() > 1) {// 多库 分表
-                    //创建一个数组
-                    String routeKey = shardingRule.getRouteKey();
+                    String routeKey = shardingRule.getRouteKey(); //创建一个数组
                     logger.info("the route key is [" + routeKey + "]");
-                    String[] routeKeys = routeKey.split(",");
+
                     Object routeValue = null;
-
-                    if (parameter instanceof Map) {
+                    if (parameter instanceof Map) {//多参数, 用于路由键非唯一问题
                         Map<String, Object> parameterMap = (Map<String, Object>) parameter;
-                        routeValue = parameterMap.get(routeKey);
+                        try {
+                            routeValue = parameterMap.get(routeKey);
 
-                        //TODO 判断是否为数组 针对批量操作，前提是 参数值需要提前进行归类
-                        if (routeValue.getClass().isArray()) {
-                            routeValue= Array.get(routeValue, 0);
+                            if (routeValue == null) {
+                                //TODO
+
+                            } else if (routeValue.getClass().isArray()) {//TODO 判断是否为数组 针对批量操作，前提是 参数值需要提前进行归类
+                                routeValue = Array.get(routeValue, 0);
+                            }
+                        } catch (Exception e) {
+                            logger.warn("you have not set route key[{}]", routeKey);
                         }
 
-                    }else if(parameter instanceof Integer
+                    } else if (parameter instanceof Integer
                             || parameter instanceof Long
                             || parameter instanceof Double
                             || parameter instanceof Float
                             || parameter instanceof Short
-                            || parameter instanceof String){//判断是否为基础类型
-                        routeValue = parameter;
-                    }else{
+                            || parameter instanceof String) {//解析 入参只有一个的情况 判断是否为基础类型
+
+                        // sql = "update t_sharding set money = ? " TODO 需判断没有路由key
+                        if (ShardingUtil.haveRouteKey(srcSql, routeKey))
+                            routeValue = parameter;
+                        else {
+                            //TODO 需要自己实现数据源路由
+                            logger.warn("you must set database index by yourself.");
+                        }
+
+                    } else {
                         // 解析对象
                         routeValue = CommonUtil.getObjectByReflect(parameter, routeKey);
                     }
+
                     if (routeValue == null) {
                         //如果没有路由主键，数据库将会进行全部扫描，性能低下，建议通过第三方系统确认路由主键
                         //本插件将会报错 the route value must not be null
-                        throw new SqlParserException("the route value must not be null, please set it. ");
+//                        throw new SqlParserException("the route value must not be null, please set it. ");
+                        /* 切换数据源索引 */
+//                        dataSourceHolder.setDataSourceIndex(dbIndex);
+                        logger.warn("the route value is null, so excute directly.[DataSourceContextHolder.setDataSourceIndex(dbIndex)]");
+
+                    } else {
+                        Object[] p = new Object[]{srcSql, routeValue};
+
+                        Route shardingRoute = shardingRouteFactory.getRoute();
+                        Object[] sql = shardingRoute.route(p, SqlResolve.sqlIsUpdate(srcSql), shardingRule);
+                        String targetSql = (String) sql[0];// 获取目标sql
+                        logger.info("the route key is : [" + routeKey + "] and the route value is : [" + routeValue + "] and the target sql is [ " + targetSql + " ]");
+
+                        //TODO save sql into the ThreadLocal and to modify eazily the sql
+                        SqlContextHolder.getInstance().setExecuteSql(targetSql);
+
                     }
-
-                    Object[] p = new Object[]{srcSql, routeValue};
-
-                    Route shardingRoute = shardingRouteFactory.getRoute();
-                    Object[] sql = shardingRoute.route(p, SqlResolve.sqlIsUpdate(srcSql), shardingRule);
-                    String targetSql = (String) sql[0];// 获取目标sql
-                    logger.info("the route key is : [" + routeKey + "] and the route value is : [" + routeValue + "] and the target sql is [ " + targetSql + " ]");
-                    /*
-					 * org.apache.ibatis.executor.statement.PreparedStatementHandler.instantiateStatement(Connection connection)
-					 */
-                    //TODO save sql into the ThreadLocal and to modify eazily the sql
-                    /**
-                     * org.apache.ibatis.executor.statement.PreparedStatementHandler
-                     * protected Statement instantiateStatement(Connection connection) throws SQLException
-                     *
-                     */
-                    SqlContextHolder.getInstance().setExecuteSql(targetSql);
-
 
                 } else {// 单库 分表
                     final int index = ShardingUtil.getBeginIndex(shardingRule, SqlResolve.sqlIsUpdate(srcSql));
@@ -170,7 +182,7 @@ public class MybatisExecuterInterceptor implements Interceptor {
      * @Title: isDataSource
      * @Description: 路由检测
      */
-    public synchronized boolean isDataSource(MappedStatement mappedStatement) {
+    private synchronized boolean isDataSource(MappedStatement mappedStatement) {
         boolean flag = false;
         try {
             Configuration configuration = mappedStatement.getConfiguration();

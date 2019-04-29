@@ -2,6 +2,7 @@ package com.Hsia.sharding.parser;
 
 import java.util.List;
 
+import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlSchemaStatVisitor;
 import org.junit.Test;
 
 import com.alibaba.druid.sql.ast.SQLExpr;
@@ -21,7 +22,7 @@ public class SqlParserTest {
 	
 	@Test
 	public void parserbySelect() throws Exception {
-		final String SQL = "SELECT * FROM userinfo_test";
+		final String SQL = "SELECT * FROM t_sharding";
 
 		SQLStatementParser parser = new MySqlStatementParser(SQL);
 		List<SQLStatement> statements = parser.parseStatementList();
@@ -43,7 +44,7 @@ public class SqlParserTest {
 
 	@Test
 	public void parserbyInsert() throws Exception {
-		String sql = "INSERT INTO userinfo_test(uid,name) VALUES(10000,xiaolang)";
+		String sql = "INSERT INTO t_sharding(uid,name) VALUES(10000,xiaolang)";
 		/* 生成AST抽象语法树 */
 		SQLStatementParser parser = new MySqlStatementParser(sql);
 		List<SQLStatement> statements = parser.parseStatementList();
@@ -60,7 +61,8 @@ public class SqlParserTest {
 	
 	@Test
 	public void parserbyUpdate() throws Exception {
-		String sql = "UPDATE userinfo_test SET sex = ? WHERE uid=10000 AND name=xiaolang";
+//		String sql = "UPDATE t_sharding SET sex = ? WHERE uid=10000 AND name=xiaolang";
+		String sql = "UPDATE t_sharding set money = ?, status = ?";
 		/* 生成AST抽象语法树 */
 		SQLStatementParser parser = new MySqlStatementParser(sql);
 		List<SQLStatement> statements = parser.parseStatementList();
@@ -68,6 +70,7 @@ public class SqlParserTest {
 			SQLStatement statement = statements.get(0);
 			if (statement instanceof SQLUpdateStatement) {
 				SQLUpdateStatement updateStatement = (SQLUpdateStatement) statement;
+
 				SQLExpr where = updateStatement.getWhere();
 				List<String> values = ShardingUtil.getConditionList(where);
 				System.out.println("tabName-->" + updateStatement.getTableName());
@@ -80,7 +83,7 @@ public class SqlParserTest {
 
 	@Test
 	public void parserbyDelete() throws Exception {
-		String sql = "DELETE FROM userinfo_test WHERE uid=10000 AND name=xiaolang";
+		String sql = "DELETE FROM t_sharding WHERE uid=10000 AND name=xiaolang";
 		/* 生成AST抽象语法树 */
 		SQLStatementParser parser = new MySqlStatementParser(sql);
 		List<SQLStatement> statements = parser.parseStatementList();

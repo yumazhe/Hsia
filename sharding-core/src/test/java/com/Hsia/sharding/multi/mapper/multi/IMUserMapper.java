@@ -17,4 +17,8 @@ public interface IMUserMapper {
     void update(@Param("id") long id, @Param("money") int money);
 
     void updateMulti(@Param("id") Long[] ids, @Param("money") int money);
+
+    void update_multi(int money);
+
+    void updateMultiFullTableScan(@Param("money") int money, @Param("index") String tbindex);
 }

@@ -40,14 +40,8 @@
 
 	<!--单数据源 读写分离-->
 	<bean id="singleSqlSessionFactory" class="com.Hsia.sharding.plugins.mybatis.HsiaSqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSourceGroupForRW" />
+		<property name="dataSource" ref="dataSource00" />
 		<property name="mapperLocations" value="classpath:mapper/single.xml" />
-		<property name="plugins" >
-			<!--executerInterceptor_rw-->
-			<array>
-				<ref bean="executerInterceptor_rw"></ref>
-			</array>
-		</property>
 	</bean>
 	<!-- 自动扫描了所有的XxxxMapper.xml对应的mapper接口文件，这样就不用一个一个手动配置Mpper的映射了，只要Mapper接口类和Mapper映射文件对应起来就可以了。 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

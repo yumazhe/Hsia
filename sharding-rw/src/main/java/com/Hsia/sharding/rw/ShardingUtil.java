@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
  *
  * @ClassName: ShardingUtil
  * @Description: 路由规则工具类
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月5日 下午9:20:54
  *
  */

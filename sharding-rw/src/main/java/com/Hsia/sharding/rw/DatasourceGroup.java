@@ -11,7 +11,7 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
  * 该数据源继承自Spring提供的AbstractRoutingDataSource,
  * 可以根据配置文件中的数据源索引对多数据源进行动态切换,
  * 能够非常方便的实现数据源路由工作
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年3月6日 上午11:09:12
  *
  */

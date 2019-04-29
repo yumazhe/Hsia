@@ -9,7 +9,7 @@ public class SqlLexerTest extends TestCase{
 	
 
 	public void test_lexer() throws Exception {
-		String sql = "SELECT * FROM userinfo WHERE F1 = 1000 where f2 = 1500 ORDER BY F2";
+		String sql = "SELECT * FROM t_sharding WHERE F1 = 1000 where f2 = 1500 ORDER BY F2";
 		Lexer lexer = new Lexer(sql);
 		for (;;) {
 			lexer.nextToken();

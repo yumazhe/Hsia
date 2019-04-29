@@ -5,7 +5,7 @@ package com.Hsia.sharding.rw;
  * 
  * @ClassName: SqlParserException
  * @Description: sql运行时异常
- * @author qsl. email：components_yumazhe@163.com
+ * @author qsl. email：Hsia_Sharding@163.com
  * @date 2016年5月6日 上午10:27:17
  *
  */

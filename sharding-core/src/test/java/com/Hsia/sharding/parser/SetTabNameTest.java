@@ -13,14 +13,14 @@ import org.junit.Test;
 public class SetTabNameTest {
 	@Test 
 	public void setName() {
-		final String TABLE_NAME = "userinfo";
-		final String SQL1 = "INSERT INTO " + TABLE_NAME + "(userinfo_id,sex) VALUES(?,?)";
+		final String TABLE_NAME = "t_sharding";
+		final String SQL1 = "INSERT INTO " + TABLE_NAME + "(t_sharding_id,sex) VALUES(?,?)";
 		System.out.println(SQL1.replaceFirst(TABLE_NAME, TABLE_NAME + "_0010"));
-		final String SQL2 = "UPDATE " + TABLE_NAME + " SET sex=? WHERE userinfo_id = ?";
+		final String SQL2 = "UPDATE " + TABLE_NAME + " SET sex=? WHERE t_sharding_id = ?";
 		System.out.println(SQL2.replaceFirst(TABLE_NAME, TABLE_NAME + "_0010"));
-		final String SQL3 = "DELETE FROM " + TABLE_NAME + " WHERE userinfo_id = ?";
+		final String SQL3 = "DELETE FROM " + TABLE_NAME + " WHERE t_sharding_id = ?";
 		System.out.println(SQL3.replaceFirst(TABLE_NAME, TABLE_NAME + "_0010"));
-		final String SQL4 = "SELECT sex FROM " + TABLE_NAME + " where userinfo_id = ?";
+		final String SQL4 = "SELECT sex FROM " + TABLE_NAME + " where t_sharding_id = ?";
 		System.out.println(SQL4.replaceFirst(TABLE_NAME, TABLE_NAME + "_0010"));
 	}
 }

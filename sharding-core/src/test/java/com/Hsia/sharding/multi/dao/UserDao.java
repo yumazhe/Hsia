@@ -44,7 +44,23 @@ public class UserDao implements IUserDao {
     }
 
     @Override
-    public void updateMulti(Long[] ids, int money) {
-        muserMapper.updateMulti(ids, money);
+    public void updateMulti(Long[] ids, int money, int type ) {
+
+        if(type == 0)
+        suserMapper.updateMulti(ids, money);
+
+        if(type == 1)
+            muserMapper.updateMulti(ids, money);
+    }
+
+    @Override
+    public void updateMulti(int money, int type) {
+        if(type == 1)
+            muserMapper.update_multi(money);
+    }
+
+    @Override
+    public void updateMultiFullTableScan(int money, String tbindex) {
+        muserMapper.updateMultiFullTableScan(money, tbindex);
     }
 }

@@ -2,6 +2,8 @@ package com.Hsia.sharding.parser;
 
 import java.util.List;
 
+import com.alibaba.druid.sql.ast.SQLExpr;
+import com.alibaba.druid.sql.ast.SQLObject;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.ast.statement.SQLDeleteStatement;
 import com.alibaba.druid.sql.ast.statement.SQLInsertStatement;
@@ -26,7 +28,7 @@ public class ResolveTableName {
 	/**
 	 * 
 	 * @Title: getTbName 
-	 * @Description: 解析数据库表名 
+	 * @Description: 解析数据库表名 并判断是否有包含路由key
 	 * @param @param sql
 	 * @param @return    设定文件 
 	 * @return String    返回类型 
@@ -38,6 +40,8 @@ public class ResolveTableName {
 		/* 生成AST抽象语法树 */
 		SQLStatementParser parser = new MySqlStatementParser(sql);
 		List<SQLStatement> statements = parser.parseStatementList();
+
+		boolean isRoute = false;
 
 		if (!statements.isEmpty()) {
 			SQLStatement statement = statements.get(0);
