@@ -1,5 +1,8 @@
 package com.Hsia.sharding.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -8,6 +11,8 @@ import java.text.DecimalFormat;
 import java.util.zip.CRC32;
 
 public class CommonUtil {
+
+    private static final Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 
     // 默认格式化类型
     private static final int format_number = 4;
@@ -90,20 +95,33 @@ public class CommonUtil {
      * @param key
      * @return
      */
-    public static Field getFieldByReflect(Object target, String key) {
-        Field field = null;
-        try {
-            field = target.getClass().getDeclaredField(key);
-            field.setAccessible(true);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-        return field;
+    public static Field getFieldByReflect(Object target, String key) throws NoSuchFieldException {
+
+        Class<?> clazz = target.getClass();
+        do {
+            try {
+                Field field = clazz.getDeclaredField(key);
+                field.setAccessible(true);
+                return field;
+            } catch (NoSuchFieldException e) {
+                //TODO 必须捕获异常，不能抛出 否则 代码： clazz = clazz.getSuperclass(); 将不被执行
+                logger.warn("there is no such Filed[{}] in {}", key, clazz.getName());
+            }
+            clazz = clazz.getSuperclass();
+        } while (clazz != Object.class);
+
+        throw new NoSuchFieldException("there is no such Filed[" + key + "] in " + target.getClass().getName());
+
     }
 
-    public static Object getObjectByReflect(Object target, String key) {
+    /**
+     * 通过反射获取属性数据
+     *
+     * @param target
+     * @param key
+     * @return
+     */
+    public static Object getObjectByReflect(Object target, String key) throws NoSuchFieldException {
         Field field = getFieldByReflect(target, key);
         Object object = null;
         try {
@@ -114,6 +132,13 @@ public class CommonUtil {
         return object;
     }
 
+    /**
+     * 通过反射设置属性
+     *
+     * @param target
+     * @param key
+     * @param value
+     */
     public static void setValueByReflect(Object target, String key, Object value) {
         Field field;
         try {
@@ -134,11 +159,6 @@ public class CommonUtil {
     /**
      * ------------------------------- 利用反射原理操作对象相关属性 end -------------------------------
      **/
-
-
-    public static void main(String[] args) {
-        System.out.println(completionNumberFormat(1));
-    }
 
 
 }
