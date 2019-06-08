@@ -10,6 +10,8 @@ import com.Hsia.sharding.multi.model.User;
  */
 public interface IUserService {
 
+    Integer query4batch(long id);
+
     void save(User user, int num);
 
     User query(long id, int num);

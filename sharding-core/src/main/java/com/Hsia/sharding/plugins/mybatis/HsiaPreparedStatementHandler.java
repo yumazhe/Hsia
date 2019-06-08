@@ -28,14 +28,14 @@ public class HsiaPreparedStatementHandler extends PreparedStatementHandler {
         String sql = null;
         try {
             sql = SqlContextHolder.getInstance().getExecuteSql();
-            if (sql == null || sql.trim().equals("")) {
+            if (sql == null || "".equals(sql.trim())) {
                 sql = boundSql.getSql();
             }
         } finally {
             SqlContextHolder.getInstance().clearExecuteSql();
         }
 
-        if (sql == null || sql.trim().equals("")) {
+        if (sql == null || "".equals(sql.trim())) {
             throw new SQLException("the execute sql must not be null. ");
         }
 

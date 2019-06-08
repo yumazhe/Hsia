@@ -67,82 +67,102 @@ public class HsiaSqlSessionFactoryBean extends SqlSessionFactoryBean {
     private ObjectFactory objectFactory;
     private ObjectWrapperFactory objectWrapperFactory;
 
+    @Override
     public void setObjectFactory(ObjectFactory objectFactory) {
         this.objectFactory = objectFactory;
     }
 
+    @Override
     public void setObjectWrapperFactory(ObjectWrapperFactory objectWrapperFactory) {
         this.objectWrapperFactory = objectWrapperFactory;
     }
 
+    @Override
     public DatabaseIdProvider getDatabaseIdProvider() {
         return this.databaseIdProvider;
     }
 
+    @Override
     public void setDatabaseIdProvider(DatabaseIdProvider databaseIdProvider) {
         this.databaseIdProvider = databaseIdProvider;
     }
 
+    @Override
     public Class<? extends VFS> getVfs() {
         return this.vfs;
     }
 
+    @Override
     public void setVfs(Class<? extends VFS> vfs) {
         this.vfs = vfs;
     }
 
+    @Override
     public Cache getCache() {
         return this.cache;
     }
 
+    @Override
     public void setCache(Cache cache) {
         this.cache = cache;
     }
 
+    @Override
     public void setPlugins(Interceptor[] plugins) {
         this.plugins = plugins;
     }
 
+    @Override
     public void setTypeAliasesPackage(String typeAliasesPackage) {
         this.typeAliasesPackage = typeAliasesPackage;
     }
 
+    @Override
     public void setTypeAliasesSuperType(Class<?> typeAliasesSuperType) {
         this.typeAliasesSuperType = typeAliasesSuperType;
     }
 
+    @Override
     public void setTypeHandlersPackage(String typeHandlersPackage) {
         this.typeHandlersPackage = typeHandlersPackage;
     }
 
+    @Override
     public void setTypeHandlers(TypeHandler<?>[] typeHandlers) {
         this.typeHandlers = typeHandlers;
     }
 
+    @Override
     public void setTypeAliases(Class<?>[] typeAliases) {
         this.typeAliases = typeAliases;
     }
 
+    @Override
     public void setFailFast(boolean failFast) {
         this.failFast = failFast;
     }
 
+    @Override
     public void setConfigLocation(Resource configLocation) {
         this.configLocation = configLocation;
     }
 
+    @Override
     public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
     }
 
+    @Override
     public void setMapperLocations(Resource[] mapperLocations) {
         this.mapperLocations = mapperLocations;
     }
 
+    @Override
     public void setConfigurationProperties(Properties sqlSessionFactoryProperties) {
         this.configurationProperties = sqlSessionFactoryProperties;
     }
 
+    @Override
     public void setDataSource(DataSource dataSource) {
         if (dataSource instanceof TransactionAwareDataSourceProxy) {
             this.dataSource = ((TransactionAwareDataSourceProxy)dataSource).getTargetDataSource();
@@ -152,18 +172,22 @@ public class HsiaSqlSessionFactoryBean extends SqlSessionFactoryBean {
 
     }
 
+    @Override
     public void setSqlSessionFactoryBuilder(SqlSessionFactoryBuilder sqlSessionFactoryBuilder) {
         this.sqlSessionFactoryBuilder = sqlSessionFactoryBuilder;
     }
 
+    @Override
     public void setTransactionFactory(TransactionFactory transactionFactory) {
         this.transactionFactory = transactionFactory;
     }
 
+    @Override
     public void setEnvironment(String environment) {
         this.environment = environment;
     }
 
+    @Override
     public void afterPropertiesSet() throws Exception {
         Assert.notNull(this.dataSource, "Property 'dataSource' is required");
         Assert.notNull(this.sqlSessionFactoryBuilder, "Property 'sqlSessionFactoryBuilder' is required");
@@ -171,6 +195,7 @@ public class HsiaSqlSessionFactoryBean extends SqlSessionFactoryBean {
         this.sqlSessionFactory = this.buildSqlSessionFactory();
     }
 
+    @Override
     protected SqlSessionFactory buildSqlSessionFactory() throws IOException {
         XMLConfigBuilder xmlConfigBuilder = null;
         Configuration configuration;
@@ -338,6 +363,7 @@ public class HsiaSqlSessionFactoryBean extends SqlSessionFactoryBean {
         return this.sqlSessionFactoryBuilder.build(configuration);
     }
 
+    @Override
     public SqlSessionFactory getObject() throws Exception {
         if (this.sqlSessionFactory == null) {
             this.afterPropertiesSet();
@@ -346,14 +372,17 @@ public class HsiaSqlSessionFactoryBean extends SqlSessionFactoryBean {
         return this.sqlSessionFactory;
     }
 
+    @Override
     public Class<? extends SqlSessionFactory> getObjectType() {
         return this.sqlSessionFactory == null ? SqlSessionFactory.class : this.sqlSessionFactory.getClass();
     }
 
+    @Override
     public boolean isSingleton() {
         return true;
     }
 
+    @Override
     public void onApplicationEvent(ApplicationEvent event) {
         if (this.failFast && event instanceof ContextRefreshedEvent) {
             this.sqlSessionFactory.getConfiguration().getMappedStatementNames();

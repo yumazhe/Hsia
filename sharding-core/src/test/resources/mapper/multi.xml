@@ -48,5 +48,9 @@
     <update id="updateMultiFullTableScan">
         update t_sharding_${index} set money = #{money}
     </update>
+    
+    <select id="query4batch" resultType="java.lang.Integer">
+        select money from t_sharding where id = 572382992748511232;
+    </select>
 
 </mapper>

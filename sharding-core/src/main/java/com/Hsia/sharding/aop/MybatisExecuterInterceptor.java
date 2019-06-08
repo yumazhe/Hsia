@@ -76,6 +76,7 @@ public class MybatisExecuterInterceptor implements Interceptor {
         Object result = null;
         Object[] params = invocation.getArgs();
         MappedStatement mappedStatement = (MappedStatement) params[0];
+
         try {
 
 			/* 执行路由检测 */
@@ -88,24 +89,35 @@ public class MybatisExecuterInterceptor implements Interceptor {
                     throw new ShardingRuleException("the shardingRule must not be null, please set it.");
                 }
 
-                if (shardingRule.getDbQuantity() > 1) {// 多库 分表
-                    String routeKey = shardingRule.getRouteKey(); //创建一个数组
-                    logger.info("the route key is [" + routeKey + "]");
+                // 多库 分表
+                if (shardingRule.getDbQuantity() > 1) {
+                    //创建一个数组
+                    String routeKey = shardingRule.getRouteKey();
+                    logger.debug("the route key is [" + routeKey + "]");
 
                     Object routeValue = null;
-                    if (parameter instanceof Map) {//多参数, 用于路由键非唯一问题
+                    if (parameter == null) {
+                        if (ShardingUtil.haveRouteKey(srcSql, routeKey)) {
+                            // 获取路由key
+                            routeValue = ShardingUtil.getRouteValue(srcSql, routeKey);
+                        } else {
+                            throw new SqlParserException("you must set database index by yourself.");
+                        }
+                    } else if (parameter instanceof Map) {
+                        //多参数, 用于路由键非唯一问题
                         Map<String, Object> parameterMap = (Map<String, Object>) parameter;
                         try {
                             routeValue = parameterMap.get(routeKey);
 
                             if (routeValue == null) {
-                                //TODO
+                                throw new SqlParserException("you have not set route key[" + routeKey + "]");
 
-                            } else if (routeValue.getClass().isArray()) {//TODO 判断是否为数组 针对批量操作，前提是 参数值需要提前进行归类
+                            } else if (routeValue.getClass().isArray()) {
+                                //TODO 判断是否为数组 针对批量操作，前提是 参数值需要提前进行归类
                                 routeValue = Array.get(routeValue, 0);
                             }
                         } catch (Exception e) {
-                            logger.warn("you have not set route key[{}]", routeKey);
+                            throw new SqlParserException("you have not set route key[" + routeKey + "]");
                         }
 
                     } else if (parameter instanceof Integer
@@ -115,36 +127,34 @@ public class MybatisExecuterInterceptor implements Interceptor {
                             || parameter instanceof Short
                             || parameter instanceof String) {//解析 入参只有一个的情况 判断是否为基础类型
 
-                        // sql = "update t_sharding set money = ? " TODO 需判断没有路由key
-                        if (ShardingUtil.haveRouteKey(srcSql, routeKey))
+                        if (ShardingUtil.haveRouteKey(srcSql, routeKey)) {
                             routeValue = parameter;
-                        else {
-                            //TODO 需要自己实现数据源路由
-                            logger.warn("you must set database index by yourself.");
+                        } else {
+                            throw new SqlParserException("you must set database index by yourself.");
                         }
 
-                    } else {
+                    } else if (parameter instanceof Object) {
                         // 解析对象
                         routeValue = CommonUtil.getObjectByReflect(parameter, routeKey);
+                    } else {
+                        throw new SqlParserException("what is this ghost!");
                     }
 
                     if (routeValue == null) {
                         //如果没有路由主键，数据库将会进行全部扫描，性能低下，建议通过第三方系统确认路由主键
                         //本插件将会报错 the route value must not be null
-//                        throw new SqlParserException("the route value must not be null, please set it. ");
-                        /* 切换数据源索引 */
-//                        dataSourceHolder.setDataSourceIndex(dbIndex);
-                        logger.warn("the route value is null, so excute directly.[DataSourceContextHolder.setDataSourceIndex(dbIndex)]");
+                        throw new SqlParserException("the route value is null, so excute directly.[DataSourceContextHolder.setDataSourceIndex(dbIndex)]");
 
                     } else {
                         Object[] p = new Object[]{srcSql, routeValue};
 
                         Route shardingRoute = shardingRouteFactory.getRoute();
                         Object[] sql = shardingRoute.route(p, SqlResolve.sqlIsUpdate(srcSql), shardingRule);
-                        String targetSql = (String) sql[0];// 获取目标sql
-                        logger.info("the route key is : [" + routeKey + "] and the route value is : [" + routeValue + "] and the target sql is [ " + targetSql + " ]");
+                        // 获取目标sql
+                        String targetSql = (String) sql[0];
+                        logger.debug("the route key is : [" + routeKey + "] and the route value is : [" + routeValue + "] and the target sql is [ " + targetSql + " ]");
 
-                        //TODO save sql into the ThreadLocal and to modify eazily the sql
+                        //save sql into the ThreadLocal and to modify eazily the sql
                         SqlContextHolder.getInstance().setExecuteSql(targetSql);
 
                     }
@@ -180,9 +190,9 @@ public class MybatisExecuterInterceptor implements Interceptor {
      * @return boolean    返回类型
      * @throws
      * @Title: isDataSource
-     * @Description: 路由检测
+     * @Description: 路由检测 [synchronized] 不要加synchronized 超级影响性能
      */
-    private synchronized boolean isDataSource(MappedStatement mappedStatement) {
+    private boolean isDataSource(MappedStatement mappedStatement) {
         boolean flag = false;
         try {
             Configuration configuration = mappedStatement.getConfiguration();
@@ -190,7 +200,7 @@ public class MybatisExecuterInterceptor implements Interceptor {
             DataSource dataSource = environment.getDataSource();
             //如果SqlSessionTemplate持有的不是 com.qishiliang.sharding.route.impl.DatasourceGroup 动态数据源,则不进行数据路由操作
             flag = dataSource instanceof DatasourceGroup;
-            logger.info(flag ? "the datasource IS sharding datasource." : "the datasource IS NOT sharding datasource.");
+            logger.debug(flag ? "the datasource IS sharding datasource." : "the datasource IS NOT sharding datasource.");
         } catch (Exception e) {
             throw new SqlParserException("the datasource is wrong.", e);
         }

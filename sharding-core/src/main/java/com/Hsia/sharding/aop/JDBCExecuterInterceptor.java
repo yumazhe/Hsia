@@ -56,8 +56,9 @@ public class JDBCExecuterInterceptor {
 			//获取切片中的相关信息
 			Object[] params = proceedingJoinPoint.getArgs();
 
-			if (0 >= params.length)
-				return result;
+			if (0 >= params.length) {
+                return result;
+            }
 
 			// 通过参数判断分库分表规则
 			Route shardingRoute = shardingRouteFactory.getRoute();
@@ -78,7 +79,7 @@ public class JDBCExecuterInterceptor {
 			}
 		} else {
 			try {
-				logger.info("sharding mysql source: no need to routing");
+				logger.debug("sharding mysql source: no need to routing");
 				result = proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
 			} catch (Throwable e) {
 				e.printStackTrace();
@@ -105,8 +106,9 @@ public class JDBCExecuterInterceptor {
 			//获取切片中的相关信息
 			Object[] params = proceedingJoinPoint.getArgs();
 
-			if (0 >= params.length)
-				return result;
+			if (0 >= params.length) {
+                return result;
+            }
 
 			// 通过参数判断分库分表规则
 			Route shardingRoute = shardingRouteFactory.getRoute();
@@ -127,7 +129,7 @@ public class JDBCExecuterInterceptor {
 			}
 		} else {
 			try {
-				logger.info("sharding mysql source: no need to routing");
+				logger.debug("sharding mysql source: no need to routing");
 				result = proceedingJoinPoint.proceed(proceedingJoinPoint.getArgs());
 			} catch (Throwable e) {
 				e.printStackTrace();
@@ -148,7 +150,7 @@ public class JDBCExecuterInterceptor {
 	public synchronized boolean isDataSource(ProceedingJoinPoint proceedingJoinPoint) {
 		//	如果JdbcTemplate持有的不是 com.qishiliang.sharding.route.impl.DatasourceGroup 动态数据源,则不进行数据路由操作
 		boolean flag = ((JdbcTemplate) proceedingJoinPoint.getTarget()).getDataSource() instanceof DatasourceGroup;
-		logger.info(flag ? "the datasource IS sharding datasource." : "the datasource IS NOT sharding datasource.");
+		logger.debug(flag ? "the datasource IS sharding datasource." : "the datasource IS NOT sharding datasource.");
 		return flag;
 	}
 }

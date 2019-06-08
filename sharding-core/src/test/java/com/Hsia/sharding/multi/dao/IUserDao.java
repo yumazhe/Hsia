@@ -19,4 +19,6 @@ public interface IUserDao {
     void updateMulti(int money, int type);
 
     void updateMultiFullTableScan(int money, String tbindex);
+
+    Integer query4batch(long id);
 }

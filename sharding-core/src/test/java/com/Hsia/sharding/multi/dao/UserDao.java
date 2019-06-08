@@ -63,4 +63,9 @@ public class UserDao implements IUserDao {
     public void updateMultiFullTableScan(int money, String tbindex) {
         muserMapper.updateMultiFullTableScan(money, tbindex);
     }
+
+    @Override
+    public Integer query4batch(long id) {
+        return muserMapper.query4batch();
+    }
 }

@@ -121,6 +121,50 @@ public class ShardingUtil {
         }
     }
 
+    public static Object getRouteValue(String sql, String key) {
+        sql = escapeSql(sql);
+        int insertIndex = sql.indexOf("insert");
+        if (insertIndex == -1) {
+            int whereIndex = sql.indexOf("where");
+            if (whereIndex == -1) {
+                throw new SqlParserException("the sql[" + sql + "] no route key[" + key + "].");
+            } else {
+                sql = sql.substring(whereIndex);
+            }
+        }
+
+        logger.debug("source sql => escape sql [{}]", sql);
+        String[] blocks = sql.split(" ");
+        logger.debug("arrays: {}",Arrays.asList(blocks).toString());
+        if (insertIndex == -1) {
+            for (int i = 0; i < blocks.length; i++) {
+                if (blocks[i].trim().equals(key)) {
+                    return blocks[i + 2];
+                }
+            }
+        } else {
+            int first = sql.indexOf("(");
+            int last = sql.indexOf(")");
+            String keySql = sql.substring(first + 1, last);
+            logger.debug("key:[{}]", keySql);
+            sql = sql.substring(last + 1);
+            first = sql.indexOf("(");
+            last = sql.indexOf(")");
+            String valueSql = sql.substring(first + 1, last);
+            logger.debug("value:[{}]", valueSql);
+
+            String[] keys = keySql.split(",");
+            String[] values = valueSql.split(",");
+            for (int i = 0; i < keys.length; i++) {
+                if (keys[i].trim().equals(key)) {
+                    return values[i];
+                }
+            }
+
+        }
+        return null;
+    }
+
     public static List<String> getConditionList(SQLExpr where) {
         List<String> columns = null;
         if (null == where) {
@@ -200,10 +244,10 @@ public class ShardingUtil {
 
         Integer index;
         if (sqlType) {// 写库
-            logger.info("the database's type is WRITE");
+            logger.debug("the database's type is WRITE");
             index = Integer.parseInt(write_index);
         } else {// 读库
-            logger.info("the database's type is READ");
+            logger.debug("the database's type is READ");
             index = Integer.parseInt(read_index);
         }
 
@@ -218,7 +262,7 @@ public class ShardingUtil {
     public static void printDbTbIndex(Object shardingKey, int dbsize, int tbsize) {
         int dbIndex = ShardingUtil.getDataBaseIndex(shardingKey, dbsize, tbsize);
         int tbIndex = ShardingUtil.getTableIndex(shardingKey, dbsize, tbsize);
-        logger.info("路由键：" + shardingKey.toString() + "， 库：" + dbIndex + "， 表 ：" + tbIndex);
+        logger.debug("路由键：" + shardingKey.toString() + "， 库：" + dbIndex + "， 表 ：" + tbIndex);
     }
 
 
@@ -229,7 +273,9 @@ public class ShardingUtil {
      * @return
      */
     public static Map<String, List<Object>> parse(List<Object> values, int dbsize, int tbsize) {
-        if (values == null) return null;
+        if (values == null) {
+            return null;
+        }
         ConcurrentHashMap<String, List<Object>> indexMap = new ConcurrentHashMap<>();
 
         for (Object value : values) {
@@ -249,25 +295,66 @@ public class ShardingUtil {
     /**
      * 判断sql是否包含路由条件
      *
-     * @param sql
-     * @param key
+     * @param sql 原始sql
+     * @param key 路由主键
      * @return
      */
     public static boolean haveRouteKey(String sql, String key) {
-        if (sql == null || sql.trim().length() == 0)
+        if (sql == null || sql.trim().length() == 0) {
             throw new SqlParserException("sql must not be null");
-        String dbType = JdbcConstants.MYSQL;
+        }
 
-        //格式化输出
-        String result = SQLUtils.format(sql, dbType);
+        // sql 转义
+        sql = escapeSql(sql);
 
-        String[] sts = result.split(" ");
+        //是否为插入语句
+        int insertIndex = sql.indexOf("insert");
+        if (insertIndex == -1) {
+            // insertIndex == -1 表示 此sql为非插入sql 则需要判断是否包含where条件
+            int whereIndex = sql.indexOf("where");
+            if (whereIndex > -1) {
+                // whereIndex > -1 ： 包含where 条件
+                sql = sql.substring(whereIndex);
+            } else {
+                return false;
+            }
+        }
 
-        for (int i = 0; i < sts.length; i++)
-            if (sts[i].equalsIgnoreCase("?"))
-                if (sts[i - 2].equalsIgnoreCase(key))
-                    return true;
+        String[] blocks = sql.split(" ");
+        for (String block : blocks) {
+            if (block.equals(key)) {
+                return true;
+            }
+        }
         return false;
+
+    }
+
+    private static String escapeSql(String sql) {
+        logger.debug("source sql:[{}]", sql);
+        //屏蔽掉分号;
+        if (sql.endsWith(";")) {
+            sql = sql.substring(0, sql.length() - 1);
+        }
+        //转换为小写
+        sql = sql.toLowerCase();
+
+        sql = sql.replace("(", " ( ");
+        sql = sql.replace(")", " ) ");
+        sql = sql.replace("{", " { ");
+        sql = sql.replace("}", " } ");
+        sql = sql.replace(",", " , ");
+        sql = sql.replace("=", " = ");
+        sql = sql.replace("+", " + ");
+        sql = sql.replace("-", " - ");
+        sql = sql.replace("*", " * ");
+        sql = sql.replace("/", " / ");
+
+        // 多空格 转换 为 一个空格
+        sql = sql.replaceAll(" +", " ");
+
+        logger.debug("escape sql:[{}]", sql);
+        return sql;
     }
 
 

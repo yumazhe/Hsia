@@ -57,7 +57,7 @@ public class SetTableName {
 		final String newTableName = ShardingUtil.getRouteName(tbIndex, tbName);
 
 		String targetSql = sql.replaceFirst(tbName, newTableName);
-		logger.info("in single db, the target sql is：--> "+targetSql);
+		logger.debug("in single db, the target sql is：--> "+targetSql);
 		return targetSql;
 	}
 }

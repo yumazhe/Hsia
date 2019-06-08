@@ -18,6 +18,11 @@ public class UserService implements  IUserService {
     private IUserDao userDao;
 
     @Override
+    public Integer query4batch(long id) {
+        return userDao.query4batch(id);
+    }
+
+    @Override
     public void save(User user, int num) {
         userDao.save(user, num);
     }

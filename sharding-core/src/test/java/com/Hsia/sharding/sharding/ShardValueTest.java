@@ -26,7 +26,7 @@ public class ShardValueTest {
             String dbName = "sharding";
             String tbName = "t_sharding";
 
-            logger.info(ShardingUtil.getDBTBIndex(key, dbSize, tbSize, dbName, tbName));
+            logger.debug(ShardingUtil.getDBTBIndex(key, dbSize, tbSize, dbName, tbName));
 
         }
 
@@ -83,14 +83,14 @@ public class ShardValueTest {
             other.incrementAndGet();
         }
         long end = System.currentTimeMillis();
-        logger.info("执行" + n + "次，总耗时为：" + (end - start) + "毫秒,平均耗时为：" + (double) (end - start) / n + "毫秒");
-        logger.info("数据库0 表0：" + count_0_0.get());
-        logger.info("数据库0 表1：" + count_0_1.get());
-        logger.info("数据库1 表0：" + count_1_0.get());
-        logger.info("数据库1 表1：" + count_1_1.get());
-        logger.info("数据库2 表1：" + count_2_1.get());
-        logger.info("数据库3 表0：" + count_3_0.get());
-        logger.info("其他数据：" + other.get());
+        logger.debug("执行" + n + "次，总耗时为：" + (end - start) + "毫秒,平均耗时为：" + (double) (end - start) / n + "毫秒");
+        logger.debug("数据库0 表0：" + count_0_0.get());
+        logger.debug("数据库0 表1：" + count_0_1.get());
+        logger.debug("数据库1 表0：" + count_1_0.get());
+        logger.debug("数据库1 表1：" + count_1_1.get());
+        logger.debug("数据库2 表1：" + count_2_1.get());
+        logger.debug("数据库3 表0：" + count_3_0.get());
+        logger.debug("其他数据：" + other.get());
     }
 
     @Test

@@ -58,7 +58,7 @@ public class MybatisShardingRoute extends RouteImpl {
         /* 切换数据源索引 */
         dataSourceHolder.setDataSourceIndex(dbIndex);
 
-        logger.info("the datasource index is : --> " + dbIndex + " and the table index is : -->" + tbIndex);
+        logger.debug("the datasource index is : --> " + dbIndex + " and the table index is : -->" + tbIndex);
 
         return new Object[]{targetSql};
     }

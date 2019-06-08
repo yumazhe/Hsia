@@ -174,18 +174,22 @@ public class HsiaConfiguration extends Configuration {
         languageRegistry.register(RawLanguageDriver.class);
     }
 
+    @Override
     public String getLogPrefix() {
         return logPrefix;
     }
 
+    @Override
     public void setLogPrefix(String logPrefix) {
         this.logPrefix = logPrefix;
     }
 
+    @Override
     public Class<? extends Log> getLogImpl() {
         return logImpl;
     }
 
+    @Override
     public void setLogImpl(Class<? extends Log> logImpl) {
         if (logImpl != null) {
             this.logImpl = logImpl;
@@ -193,10 +197,12 @@ public class HsiaConfiguration extends Configuration {
         }
     }
 
+    @Override
     public Class<? extends VFS> getVfsImpl() {
         return this.vfsImpl;
     }
 
+    @Override
     public void setVfsImpl(Class<? extends VFS> vfsImpl) {
         if (vfsImpl != null) {
             this.vfsImpl = vfsImpl;
@@ -204,90 +210,112 @@ public class HsiaConfiguration extends Configuration {
         }
     }
 
+    @Override
     public boolean isCallSettersOnNulls() {
         return callSettersOnNulls;
     }
 
+    @Override
     public void setCallSettersOnNulls(boolean callSettersOnNulls) {
         this.callSettersOnNulls = callSettersOnNulls;
     }
 
+    @Override
     public boolean isUseActualParamName() {
         return useActualParamName;
     }
 
+    @Override
     public void setUseActualParamName(boolean useActualParamName) {
         this.useActualParamName = useActualParamName;
     }
 
+    @Override
     public boolean isReturnInstanceForEmptyRow() {
         return returnInstanceForEmptyRow;
     }
 
+    @Override
     public void setReturnInstanceForEmptyRow(boolean returnEmptyInstance) {
         this.returnInstanceForEmptyRow = returnEmptyInstance;
     }
 
+    @Override
     public String getDatabaseId() {
         return databaseId;
     }
 
+    @Override
     public void setDatabaseId(String databaseId) {
         this.databaseId = databaseId;
     }
 
+    @Override
     public Class<?> getConfigurationFactory() {
         return configurationFactory;
     }
 
+    @Override
     public void setConfigurationFactory(Class<?> configurationFactory) {
         this.configurationFactory = configurationFactory;
     }
 
+    @Override
     public boolean isSafeResultHandlerEnabled() {
         return safeResultHandlerEnabled;
     }
 
+    @Override
     public void setSafeResultHandlerEnabled(boolean safeResultHandlerEnabled) {
         this.safeResultHandlerEnabled = safeResultHandlerEnabled;
     }
 
+    @Override
     public boolean isSafeRowBoundsEnabled() {
         return safeRowBoundsEnabled;
     }
 
+    @Override
     public void setSafeRowBoundsEnabled(boolean safeRowBoundsEnabled) {
         this.safeRowBoundsEnabled = safeRowBoundsEnabled;
     }
 
+    @Override
     public boolean isMapUnderscoreToCamelCase() {
         return mapUnderscoreToCamelCase;
     }
 
+    @Override
     public void setMapUnderscoreToCamelCase(boolean mapUnderscoreToCamelCase) {
         this.mapUnderscoreToCamelCase = mapUnderscoreToCamelCase;
     }
 
+    @Override
     public void addLoadedResource(String resource) {
         loadedResources.add(resource);
     }
 
+    @Override
     public boolean isResourceLoaded(String resource) {
         return loadedResources.contains(resource);
     }
 
+    @Override
     public Environment getEnvironment() {
         return environment;
     }
 
+    @Override
     public void setEnvironment(Environment environment) {
         this.environment = environment;
     }
 
+    @Override
     public AutoMappingBehavior getAutoMappingBehavior() {
         return autoMappingBehavior;
     }
 
+    @Override
     public void setAutoMappingBehavior(AutoMappingBehavior autoMappingBehavior) {
         this.autoMappingBehavior = autoMappingBehavior;
     }
@@ -295,6 +323,7 @@ public class HsiaConfiguration extends Configuration {
     /**
      * @since 3.4.0
      */
+    @Override
     public AutoMappingUnknownColumnBehavior getAutoMappingUnknownColumnBehavior() {
         return autoMappingUnknownColumnBehavior;
     }
@@ -302,22 +331,27 @@ public class HsiaConfiguration extends Configuration {
     /**
      * @since 3.4.0
      */
+    @Override
     public void setAutoMappingUnknownColumnBehavior(AutoMappingUnknownColumnBehavior autoMappingUnknownColumnBehavior) {
         this.autoMappingUnknownColumnBehavior = autoMappingUnknownColumnBehavior;
     }
 
+    @Override
     public boolean isLazyLoadingEnabled() {
         return lazyLoadingEnabled;
     }
 
+    @Override
     public void setLazyLoadingEnabled(boolean lazyLoadingEnabled) {
         this.lazyLoadingEnabled = lazyLoadingEnabled;
     }
 
+    @Override
     public ProxyFactory getProxyFactory() {
         return proxyFactory;
     }
 
+    @Override
     public void setProxyFactory(ProxyFactory proxyFactory) {
         if (proxyFactory == null) {
             proxyFactory = new JavassistProxyFactory();
@@ -325,58 +359,72 @@ public class HsiaConfiguration extends Configuration {
         this.proxyFactory = proxyFactory;
     }
 
+    @Override
     public boolean isAggressiveLazyLoading() {
         return aggressiveLazyLoading;
     }
 
+    @Override
     public void setAggressiveLazyLoading(boolean aggressiveLazyLoading) {
         this.aggressiveLazyLoading = aggressiveLazyLoading;
     }
 
+    @Override
     public boolean isMultipleResultSetsEnabled() {
         return multipleResultSetsEnabled;
     }
 
+    @Override
     public void setMultipleResultSetsEnabled(boolean multipleResultSetsEnabled) {
         this.multipleResultSetsEnabled = multipleResultSetsEnabled;
     }
 
+    @Override
     public Set<String> getLazyLoadTriggerMethods() {
         return lazyLoadTriggerMethods;
     }
 
+    @Override
     public void setLazyLoadTriggerMethods(Set<String> lazyLoadTriggerMethods) {
         this.lazyLoadTriggerMethods = lazyLoadTriggerMethods;
     }
 
+    @Override
     public boolean isUseGeneratedKeys() {
         return useGeneratedKeys;
     }
 
+    @Override
     public void setUseGeneratedKeys(boolean useGeneratedKeys) {
         this.useGeneratedKeys = useGeneratedKeys;
     }
 
+    @Override
     public ExecutorType getDefaultExecutorType() {
         return defaultExecutorType;
     }
 
+    @Override
     public void setDefaultExecutorType(ExecutorType defaultExecutorType) {
         this.defaultExecutorType = defaultExecutorType;
     }
 
+    @Override
     public boolean isCacheEnabled() {
         return cacheEnabled;
     }
 
+    @Override
     public void setCacheEnabled(boolean cacheEnabled) {
         this.cacheEnabled = cacheEnabled;
     }
 
+    @Override
     public Integer getDefaultStatementTimeout() {
         return defaultStatementTimeout;
     }
 
+    @Override
     public void setDefaultStatementTimeout(Integer defaultStatementTimeout) {
         this.defaultStatementTimeout = defaultStatementTimeout;
     }
@@ -384,6 +432,7 @@ public class HsiaConfiguration extends Configuration {
     /**
      * @since 3.3.0
      */
+    @Override
     public Integer getDefaultFetchSize() {
         return defaultFetchSize;
     }
@@ -391,42 +440,52 @@ public class HsiaConfiguration extends Configuration {
     /**
      * @since 3.3.0
      */
+    @Override
     public void setDefaultFetchSize(Integer defaultFetchSize) {
         this.defaultFetchSize = defaultFetchSize;
     }
 
+    @Override
     public boolean isUseColumnLabel() {
         return useColumnLabel;
     }
 
+    @Override
     public void setUseColumnLabel(boolean useColumnLabel) {
         this.useColumnLabel = useColumnLabel;
     }
 
+    @Override
     public LocalCacheScope getLocalCacheScope() {
         return localCacheScope;
     }
 
+    @Override
     public void setLocalCacheScope(LocalCacheScope localCacheScope) {
         this.localCacheScope = localCacheScope;
     }
 
+    @Override
     public JdbcType getJdbcTypeForNull() {
         return jdbcTypeForNull;
     }
 
+    @Override
     public void setJdbcTypeForNull(JdbcType jdbcTypeForNull) {
         this.jdbcTypeForNull = jdbcTypeForNull;
     }
 
+    @Override
     public Properties getVariables() {
         return variables;
     }
 
+    @Override
     public void setVariables(Properties variables) {
         this.variables = variables;
     }
 
+    @Override
     public TypeHandlerRegistry getTypeHandlerRegistry() {
         return typeHandlerRegistry;
     }
@@ -437,12 +496,14 @@ public class HsiaConfiguration extends Configuration {
      * @param typeHandler a type handler class for {@link Enum}
      * @since 3.4.5
      */
+    @Override
     public void setDefaultEnumTypeHandler(Class<? extends TypeHandler> typeHandler) {
         if (typeHandler != null) {
             getTypeHandlerRegistry().setDefaultEnumTypeHandler(typeHandler);
         }
     }
 
+    @Override
     public TypeAliasRegistry getTypeAliasRegistry() {
         return typeAliasRegistry;
     }
@@ -450,30 +511,37 @@ public class HsiaConfiguration extends Configuration {
     /**
      * @since 3.2.2
      */
+    @Override
     public MapperRegistry getMapperRegistry() {
         return mapperRegistry;
     }
 
+    @Override
     public ReflectorFactory getReflectorFactory() {
         return reflectorFactory;
     }
 
+    @Override
     public void setReflectorFactory(ReflectorFactory reflectorFactory) {
         this.reflectorFactory = reflectorFactory;
     }
 
+    @Override
     public ObjectFactory getObjectFactory() {
         return objectFactory;
     }
 
+    @Override
     public void setObjectFactory(ObjectFactory objectFactory) {
         this.objectFactory = objectFactory;
     }
 
+    @Override
     public ObjectWrapperFactory getObjectWrapperFactory() {
         return objectWrapperFactory;
     }
 
+    @Override
     public void setObjectWrapperFactory(ObjectWrapperFactory objectWrapperFactory) {
         this.objectWrapperFactory = objectWrapperFactory;
     }
@@ -481,14 +549,17 @@ public class HsiaConfiguration extends Configuration {
     /**
      * @since 3.2.2
      */
+    @Override
     public List<Interceptor> getInterceptors() {
         return interceptorChain.getInterceptors();
     }
 
+    @Override
     public LanguageDriverRegistry getLanguageRegistry() {
         return languageRegistry;
     }
 
+    @Override
     public void setDefaultScriptingLanguage(Class<? extends LanguageDriver> driver) {
         if (driver == null) {
             driver = XMLLanguageDriver.class;
@@ -497,26 +568,31 @@ public class HsiaConfiguration extends Configuration {
         this.getLanguageRegistry().setDefaultDriverClass(driver);
     }
 
+    @Override
     public LanguageDriver getDefaultScriptingLanguageInstance() {
         return languageRegistry.getDefaultDriver();
     }
 
     /** @deprecated Use {@link #getDefaultScriptingLanguageInstance()} */
+    @Override
     @Deprecated
     public LanguageDriver getDefaultScriptingLanuageInstance() {
         return getDefaultScriptingLanguageInstance();
     }
 
+    @Override
     public MetaObject newMetaObject(Object object) {
         return MetaObject.forObject(object, objectFactory, objectWrapperFactory, reflectorFactory);
     }
 
+    @Override
     public ParameterHandler newParameterHandler(MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {
         ParameterHandler parameterHandler = mappedStatement.getLang().createParameterHandler(mappedStatement, parameterObject, boundSql);
         parameterHandler = (ParameterHandler) interceptorChain.pluginAll(parameterHandler);
         return parameterHandler;
     }
 
+    @Override
     public ResultSetHandler newResultSetHandler(Executor executor, MappedStatement mappedStatement, RowBounds rowBounds, ParameterHandler parameterHandler,
                                                 ResultHandler resultHandler, BoundSql boundSql) {
         ResultSetHandler resultSetHandler = new DefaultResultSetHandler(executor, mappedStatement, parameterHandler, resultHandler, boundSql, rowBounds);
@@ -524,6 +600,7 @@ public class HsiaConfiguration extends Configuration {
         return resultSetHandler;
     }
 
+    @Override
     public StatementHandler newStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
         //TODO 自定义路由处理器
         StatementHandler statementHandler = new HsiaRoutingStatementHandler(executor, mappedStatement, parameterObject, rowBounds, resultHandler, boundSql);
@@ -531,10 +608,12 @@ public class HsiaConfiguration extends Configuration {
         return statementHandler;
     }
 
+    @Override
     public Executor newExecutor(Transaction transaction) {
         return newExecutor(transaction, defaultExecutorType);
     }
 
+    @Override
     public Executor newExecutor(Transaction transaction, ExecutorType executorType) {
         executorType = executorType == null ? defaultExecutorType : executorType;
         executorType = executorType == null ? ExecutorType.SIMPLE : executorType;
@@ -553,138 +632,171 @@ public class HsiaConfiguration extends Configuration {
         return executor;
     }
 
+    @Override
     public void addKeyGenerator(String id, KeyGenerator keyGenerator) {
         keyGenerators.put(id, keyGenerator);
     }
 
+    @Override
     public Collection<String> getKeyGeneratorNames() {
         return keyGenerators.keySet();
     }
 
+    @Override
     public Collection<KeyGenerator> getKeyGenerators() {
         return keyGenerators.values();
     }
 
+    @Override
     public KeyGenerator getKeyGenerator(String id) {
         return keyGenerators.get(id);
     }
 
+    @Override
     public boolean hasKeyGenerator(String id) {
         return keyGenerators.containsKey(id);
     }
 
+    @Override
     public void addCache(Cache cache) {
         caches.put(cache.getId(), cache);
     }
 
+    @Override
     public Collection<String> getCacheNames() {
         return caches.keySet();
     }
 
+    @Override
     public Collection<Cache> getCaches() {
         return caches.values();
     }
 
+    @Override
     public Cache getCache(String id) {
         return caches.get(id);
     }
 
+    @Override
     public boolean hasCache(String id) {
         return caches.containsKey(id);
     }
 
+    @Override
     public void addResultMap(ResultMap rm) {
         resultMaps.put(rm.getId(), rm);
         checkLocallyForDiscriminatedNestedResultMaps(rm);
         checkGloballyForDiscriminatedNestedResultMaps(rm);
     }
 
+    @Override
     public Collection<String> getResultMapNames() {
         return resultMaps.keySet();
     }
 
+    @Override
     public Collection<ResultMap> getResultMaps() {
         return resultMaps.values();
     }
 
+    @Override
     public ResultMap getResultMap(String id) {
         return resultMaps.get(id);
     }
 
+    @Override
     public boolean hasResultMap(String id) {
         return resultMaps.containsKey(id);
     }
 
+    @Override
     public void addParameterMap(ParameterMap pm) {
         parameterMaps.put(pm.getId(), pm);
     }
 
+    @Override
     public Collection<String> getParameterMapNames() {
         return parameterMaps.keySet();
     }
 
+    @Override
     public Collection<ParameterMap> getParameterMaps() {
         return parameterMaps.values();
     }
 
+    @Override
     public ParameterMap getParameterMap(String id) {
         return parameterMaps.get(id);
     }
 
+    @Override
     public boolean hasParameterMap(String id) {
         return parameterMaps.containsKey(id);
     }
 
+    @Override
     public void addMappedStatement(MappedStatement ms) {
         mappedStatements.put(ms.getId(), ms);
     }
 
+    @Override
     public Collection<String> getMappedStatementNames() {
         buildAllStatements();
         return mappedStatements.keySet();
     }
 
+    @Override
     public Collection<MappedStatement> getMappedStatements() {
         buildAllStatements();
         return mappedStatements.values();
     }
 
+    @Override
     public Collection<XMLStatementBuilder> getIncompleteStatements() {
         return incompleteStatements;
     }
 
+    @Override
     public void addIncompleteStatement(XMLStatementBuilder incompleteStatement) {
         incompleteStatements.add(incompleteStatement);
     }
 
+    @Override
     public Collection<CacheRefResolver> getIncompleteCacheRefs() {
         return incompleteCacheRefs;
     }
 
+    @Override
     public void addIncompleteCacheRef(CacheRefResolver incompleteCacheRef) {
         incompleteCacheRefs.add(incompleteCacheRef);
     }
 
+    @Override
     public Collection<ResultMapResolver> getIncompleteResultMaps() {
         return incompleteResultMaps;
     }
 
+    @Override
     public void addIncompleteResultMap(ResultMapResolver resultMapResolver) {
         incompleteResultMaps.add(resultMapResolver);
     }
 
+    @Override
     public void addIncompleteMethod(MethodResolver builder) {
         incompleteMethods.add(builder);
     }
 
+    @Override
     public Collection<MethodResolver> getIncompleteMethods() {
         return incompleteMethods;
     }
 
+    @Override
     public MappedStatement getMappedStatement(String id) {
         return this.getMappedStatement(id, true);
     }
 
+    @Override
     public MappedStatement getMappedStatement(String id, boolean validateIncompleteStatements) {
         if (validateIncompleteStatements) {
             buildAllStatements();
@@ -692,38 +804,47 @@ public class HsiaConfiguration extends Configuration {
         return mappedStatements.get(id);
     }
 
+    @Override
     public Map<String, XNode> getSqlFragments() {
         return sqlFragments;
     }
 
+    @Override
     public void addInterceptor(Interceptor interceptor) {
         interceptorChain.addInterceptor(interceptor);
     }
 
+    @Override
     public void addMappers(String packageName, Class<?> superType) {
         mapperRegistry.addMappers(packageName, superType);
     }
 
+    @Override
     public void addMappers(String packageName) {
         mapperRegistry.addMappers(packageName);
     }
 
+    @Override
     public <T> void addMapper(Class<T> type) {
         mapperRegistry.addMapper(type);
     }
 
+    @Override
     public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
         return mapperRegistry.getMapper(type, sqlSession);
     }
 
+    @Override
     public boolean hasMapper(Class<?> type) {
         return mapperRegistry.hasMapper(type);
     }
 
+    @Override
     public boolean hasStatement(String statementName) {
         return hasStatement(statementName, true);
     }
 
+    @Override
     public boolean hasStatement(String statementName, boolean validateIncompleteStatements) {
         if (validateIncompleteStatements) {
             buildAllStatements();
@@ -731,6 +852,7 @@ public class HsiaConfiguration extends Configuration {
         return mappedStatements.containsKey(statementName);
     }
 
+    @Override
     public void addCacheRef(String namespace, String referencedNamespace) {
         cacheRefMap.put(namespace, referencedNamespace);
     }
@@ -740,6 +862,7 @@ public class HsiaConfiguration extends Configuration {
      * to call this method once all the mappers are added as it provides fail-fast
      * statement validation.
      */
+    @Override
     protected void buildAllStatements() {
         if (!incompleteResultMaps.isEmpty()) {
             synchronized (incompleteResultMaps) {
@@ -773,12 +896,14 @@ public class HsiaConfiguration extends Configuration {
      * @param statementId
      * @return namespace or null when id does not contain period.
      */
+    @Override
     protected String extractNamespace(String statementId) {
         int lastPeriod = statementId.lastIndexOf('.');
         return lastPeriod > 0 ? statementId.substring(0, lastPeriod) : null;
     }
 
     // Slow but a one time cost. A better solution is welcome.
+    @Override
     protected void checkGloballyForDiscriminatedNestedResultMaps(ResultMap rm) {
         if (rm.hasNestedResultMaps()) {
             for (Map.Entry<String, ResultMap> entry : resultMaps.entrySet()) {
@@ -797,6 +922,7 @@ public class HsiaConfiguration extends Configuration {
     }
 
     // Slow but a one time cost. A better solution is welcome.
+    @Override
     protected void checkLocallyForDiscriminatedNestedResultMaps(ResultMap rm) {
         if (!rm.hasNestedResultMaps() && rm.getDiscriminator() != null) {
             for (Map.Entry<String, String> entry : rm.getDiscriminator().getDiscriminatorMap().entrySet()) {
@@ -837,6 +963,7 @@ public class HsiaConfiguration extends Configuration {
             this.name = name;
         }
 
+        @Override
         @SuppressWarnings("unchecked")
         public V put(String key, V value) {
             if (containsKey(key)) {
@@ -853,6 +980,7 @@ public class HsiaConfiguration extends Configuration {
             return super.put(key, value);
         }
 
+        @Override
         public V get(Object key) {
             V value = super.get(key);
             if (value == null) {

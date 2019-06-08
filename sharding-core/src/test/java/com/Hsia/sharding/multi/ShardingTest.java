@@ -7,12 +7,17 @@ import com.Hsia.sharding.route.ShardingRule;
 import com.Hsia.sharding.utils.SnowflakeIdWorker;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @Auther: yumazhe
@@ -24,9 +29,10 @@ import javax.annotation.Resource;
 @ContextConfiguration(locations = {"classpath:spring.xml", "classpath:dataSource-rw.xml", "classpath:dataSource-multi.xml"})
 public class ShardingTest {
 
+    private static final Logger logger = LoggerFactory.getLogger(ShardingTest.class);
+
     @Autowired
     private IUserService userService;
-
 
 
     @Test
@@ -73,7 +79,7 @@ public class ShardingTest {
         long id3 = 568436094710841343l;
         long id4 = 568436094710841344l;
         long id5 = 568436094710841345l;
-        int money = 10110;
+        int money = 1010;
         Long[] ids = new Long[]{id1, id2, id3, id4, id5};
         userService.updateMulti(ids, money, 1);
 
@@ -115,6 +121,52 @@ public class ShardingTest {
             }
         }
 
+
+    }
+
+
+    private ExecutorService pool = null;
+    private CountDownLatch latch = null;
+
+    @Test
+    public void selectBatch() {
+        try {
+            int size = 1;
+            this.pool = Executors.newFixedThreadPool(size);
+            this.latch = new CountDownLatch(size);
+            long start = System.currentTimeMillis();
+            for (int i = 0; i < size; i++) {
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            long id = 572382992748511232L;
+                            Integer money = userService.query4batch(id);
+                            System.out.println(money);
+                        } finally {
+                            latch.countDown();
+                        }
+                    }
+                };
+                pool.execute(thread);
+
+            }
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            long end = System.currentTimeMillis();
+
+            long total = end - start;
+
+            logger.warn("总耗时:{}, 平均耗时:{}, tps:{}", total, total / size, (1000 * size / total));
+        } catch (Exception e) {
+
+
+        } finally {
+            this.pool.shutdown();
+        }
 
     }
 }

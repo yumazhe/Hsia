@@ -48,7 +48,9 @@ public class CommonUtil {
      * @Description: java 对象转换为字节数组
      */
     private static byte[] toByteArray(Object obj) {
-        if (null == obj) throw new RuntimeException("null对象不能进行字节序列化...");
+        if (null == obj) {
+            throw new RuntimeException("null对象不能进行字节序列化...");
+        }
         byte[] bytes = null;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {

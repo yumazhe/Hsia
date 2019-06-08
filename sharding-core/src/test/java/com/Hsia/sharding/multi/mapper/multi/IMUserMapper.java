@@ -21,4 +21,6 @@ public interface IMUserMapper {
     void update_multi(int money);
 
     void updateMultiFullTableScan(@Param("money") int money, @Param("index") String tbindex);
+
+    Integer query4batch();
 }
