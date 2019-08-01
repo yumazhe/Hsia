@@ -49,17 +49,29 @@ public class ShardingTest {
             User u2 = userService.query(id, 1);
             System.out.println("分库分表：" + id + "--" + u2);
 
-            long uid = new SnowflakeIdWorker(0, 0).nextId();
-            user = new User(uid, money);
-            userService.save(user, 0);
-            User u1 = userService.query(uid, 0);
-            System.out.println("读写分离：" + uid + "--" + u1);
+//            long uid = new SnowflakeIdWorker(0, 0).nextId();
+//            user = new User(uid, money);
+//            userService.save(user, 0);
+//            User u1 = userService.query(uid, 0);
+//            System.out.println("读写分离：" + uid + "--" + u1);
 
             Thread.sleep(1000);
             i++;
         }
 
 
+    }
+
+
+
+    @Test
+    public void insert() throws InterruptedException {
+            long id = new SnowflakeIdWorker(0, 0).nextId();
+            int money = 200;
+            User user = new User(id, money);
+            userService.save(user, 1);
+            User u2 = userService.query(id, 1);
+            System.out.println("分库分表：" + id + "--" + u2);
     }
 
     @Test
@@ -74,13 +86,10 @@ public class ShardingTest {
 
     @Test
     public void update_multi() {
-        long id1 = 568436094710841341l;
-        long id2 = 568436094710841342l;
-        long id3 = 568436094710841343l;
-        long id4 = 568436094710841344l;
-        long id5 = 568436094710841345l;
-        int money = 1010;
-        Long[] ids = new Long[]{id1, id2, id3, id4, id5};
+        long id1 = 598844466396135424L;
+        long id2 = 598844495202615296L;
+        int money = 10100;
+        Long[] ids = new Long[]{id1, id2};
         userService.updateMulti(ids, money, 1);
 
         User u1 = userService.query(id1, 1);

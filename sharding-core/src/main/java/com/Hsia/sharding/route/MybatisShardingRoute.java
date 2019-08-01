@@ -51,7 +51,7 @@ public class MybatisShardingRoute extends RouteImpl {
         int tbIndex = tbRule.getRouteIndex(routeValue, dbQuantity, tbQuantity);
 
 		/* 单库多表模式下设定真正的数据库表名 */
-        targetSql = SetTableName.setRouteTableName(shardingRule, dbIndex, tbIndex, dbQuantity, tbQuantity, tbName, srcSql);
+        targetSql = SetTableName.setRouteTableName(tbIndex, tbName, srcSql);
 
         final int beginIndex = ShardingUtil.getBeginIndex(shardingRule, sqlType);
         dbIndex = dbIndex + beginIndex;

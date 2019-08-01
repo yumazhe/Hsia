@@ -1,5 +1,6 @@
-package com.Hsia.sharding.parser;
+package com.Hsia.sharding.route;
 
+import com.Hsia.sharding.parser.ResolveTableName;
 import org.junit.Test;
 
 public class ResolveTableNameTest {

@@ -10,6 +10,7 @@ import com.Hsia.sharding.dataSource.DataSourceContextHolder;
 import com.Hsia.sharding.exceptions.ShardingRuleException;
 import com.Hsia.sharding.route.Route;
 import com.Hsia.sharding.utils.CommonUtil;
+import com.alibaba.fastjson.JSON;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
@@ -106,18 +107,24 @@ public class MybatisExecuterInterceptor implements Interceptor {
                     } else if (parameter instanceof Map) {
                         //多参数, 用于路由键非唯一问题
                         Map<String, Object> parameterMap = (Map<String, Object>) parameter;
-                        try {
-                            routeValue = parameterMap.get(routeKey);
 
-                            if (routeValue == null) {
+                        if(parameterMap.containsKey(routeKey)){
+                            try {
+                                routeValue = parameterMap.get(routeKey);
+
+                                if (routeValue == null) {
+                                    throw new SqlParserException("you have not set route key[" + routeKey + "]");
+
+                                } else if (routeValue.getClass().isArray()) {
+                                    //TODO 判断是否为数组 针对批量操作，前提是 参数值需要提前进行归类
+                                    routeValue = Array.get(routeValue, 0);
+                                }
+                            } catch (Exception e) {
                                 throw new SqlParserException("you have not set route key[" + routeKey + "]");
-
-                            } else if (routeValue.getClass().isArray()) {
-                                //TODO 判断是否为数组 针对批量操作，前提是 参数值需要提前进行归类
-                                routeValue = Array.get(routeValue, 0);
                             }
-                        } catch (Exception e) {
-                            throw new SqlParserException("you have not set route key[" + routeKey + "]");
+
+                        }else{
+                            logger.warn("you have not set route key. the map is [{}]", JSON.toJSONString(parameterMap));
                         }
 
                     } else if (parameter instanceof Integer
@@ -143,7 +150,15 @@ public class MybatisExecuterInterceptor implements Interceptor {
                     if (routeValue == null) {
                         //如果没有路由主键，数据库将会进行全部扫描，性能低下，建议通过第三方系统确认路由主键
                         //本插件将会报错 the route value must not be null
-                        throw new SqlParserException("the route value is null, so excute directly.[DataSourceContextHolder.setDataSourceIndex(dbIndex)]");
+//                        throw new SqlParserException("the route value is null, so excute directly.[DataSourceContextHolder.setDataSourceIndex(dbIndex)]");
+                        try {
+                            int dbIndex = dataSourceHolder.getDataSourceIndex();
+                            logger.warn("you set the db index is [{}] directly.", dbIndex);
+                        }catch (Exception e){
+                            throw new SqlParserException("the route value is null, and the db index is null. " +
+                                    "please set route key, or you can set [DataSourceContextHolder.setDataSourceIndex(dbIndex)] directly.");
+                        }
+
 
                     } else {
                         Object[] p = new Object[]{srcSql, routeValue};

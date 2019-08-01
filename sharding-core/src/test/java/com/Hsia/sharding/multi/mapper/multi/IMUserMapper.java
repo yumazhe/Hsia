@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
  */
 @Mapper
 public interface IMUserMapper {
+//    void save(@Param("user") User user);
     void save(User user);
     User query(@Param("id") long id, @Param("status") int status);
 

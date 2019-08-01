@@ -1,4 +1,4 @@
-package com.Hsia.sharding.parser;
+package com.Hsia.sharding.route;
 
 import com.Hsia.sharding.utils.ShardingUtil;
 

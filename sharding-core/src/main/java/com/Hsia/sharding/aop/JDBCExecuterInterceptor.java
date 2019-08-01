@@ -147,7 +147,7 @@ public class JDBCExecuterInterceptor {
 	 * @return boolean    返回类型 
 	 * @throws
 	 */
-	public synchronized boolean isDataSource(ProceedingJoinPoint proceedingJoinPoint) {
+	public boolean isDataSource(ProceedingJoinPoint proceedingJoinPoint) {
 		//	如果JdbcTemplate持有的不是 com.qishiliang.sharding.route.impl.DatasourceGroup 动态数据源,则不进行数据路由操作
 		boolean flag = ((JdbcTemplate) proceedingJoinPoint.getTarget()).getDataSource() instanceof DatasourceGroup;
 		logger.debug(flag ? "the datasource IS sharding datasource." : "the datasource IS NOT sharding datasource.");

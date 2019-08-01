@@ -12,9 +12,9 @@
     <!--注册用户-->
     <insert id="save" parameterType="com.Hsia.sharding.multi.model.User">
         insert into t_sharding
-        (id, money)
+        (id, money, create_time)
         VALUES
-        (#{id}, #{money})
+        (#{id}, #{money}, now())
     </insert>
 
     <!--query-->

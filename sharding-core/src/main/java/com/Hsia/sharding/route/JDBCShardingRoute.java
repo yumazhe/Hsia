@@ -67,7 +67,7 @@ public class JDBCShardingRoute extends RouteImpl {
 		/* 解析数据库表名 */
         final String tbName = ResolveTableName.getTableName(srcSql);
         /* 单库多表模式下设定真正的数据库表名 */
-        targetSql = SetTableName.setRouteTableName(shardingRule, dbIndex, tbIndex, dbQuantity, tbQuantity, tbName, srcSql);
+        targetSql = SetTableName.setRouteTableName( tbIndex, tbName, srcSql);
 
         final int beginIndex = ShardingUtil.getBeginIndex(shardingRule, sqlType);
 

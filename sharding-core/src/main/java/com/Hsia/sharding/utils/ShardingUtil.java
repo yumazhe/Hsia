@@ -123,9 +123,10 @@ public class ShardingUtil {
 
     public static Object getRouteValue(String sql, String key) {
         sql = escapeSql(sql);
-        int insertIndex = sql.indexOf("insert");
+        sql = SQLUtils.formatMySql(sql);
+        int insertIndex = sql.indexOf("INSERT");
         if (insertIndex == -1) {
-            int whereIndex = sql.indexOf("where");
+            int whereIndex = sql.indexOf("WHERE");
             if (whereIndex == -1) {
                 throw new SqlParserException("the sql[" + sql + "] no route key[" + key + "].");
             } else {
@@ -133,15 +134,15 @@ public class ShardingUtil {
             }
         }
 
-        logger.debug("source sql => escape sql [{}]", sql);
-        String[] blocks = sql.split(" ");
-        logger.debug("arrays: {}",Arrays.asList(blocks).toString());
+        String[] blocks = sql.split("[, ( )]");
+        logger.debug("sql[{}] => blocks: {}", sql, Arrays.asList(blocks).toString());
         if (insertIndex == -1) {
             for (int i = 0; i < blocks.length; i++) {
                 if (blocks[i].trim().equals(key)) {
                     return blocks[i + 2];
                 }
             }
+            throw new SqlParserException("the sql[" + sql + "] no route key[" + key + "].");
         } else {
             int first = sql.indexOf("(");
             int last = sql.indexOf(")");
@@ -162,7 +163,7 @@ public class ShardingUtil {
             }
 
         }
-        return null;
+        throw new SqlParserException("sql[" + sql + "] analysis wrong.");
     }
 
     public static List<String> getConditionList(SQLExpr where) {
@@ -306,12 +307,13 @@ public class ShardingUtil {
 
         // sql 转义
         sql = escapeSql(sql);
+        sql = SQLUtils.formatMySql(sql);
 
         //是否为插入语句
-        int insertIndex = sql.indexOf("insert");
+        int insertIndex = sql.indexOf("INSERT");
         if (insertIndex == -1) {
             // insertIndex == -1 表示 此sql为非插入sql 则需要判断是否包含where条件
-            int whereIndex = sql.indexOf("where");
+            int whereIndex = sql.indexOf("WHERE");
             if (whereIndex > -1) {
                 // whereIndex > -1 ： 包含where 条件
                 sql = sql.substring(whereIndex);
@@ -320,9 +322,10 @@ public class ShardingUtil {
             }
         }
 
-        String[] blocks = sql.split(" ");
+        // 将，； （ ） 进行分割
+        String[] blocks = sql.split("[ , ; ( )]");
         for (String block : blocks) {
-            if (block.equals(key)) {
+            if (block.equalsIgnoreCase(key)) {
                 return true;
             }
         }
@@ -330,31 +333,52 @@ public class ShardingUtil {
 
     }
 
-    private static String escapeSql(String sql) {
-        logger.debug("source sql:[{}]", sql);
-        //屏蔽掉分号;
-        if (sql.endsWith(";")) {
-            sql = sql.substring(0, sql.length() - 1);
+    public static String escapeSql(String src) {
+        if (src == null || src.trim().length() == 0) {
+            throw new SqlParserException("the sql must not be null");
         }
+
+        String target = null;
+
         //转换为小写
-        sql = sql.toLowerCase();
+        target = src.toLowerCase();
+//        target = src;
 
-        sql = sql.replace("(", " ( ");
-        sql = sql.replace(")", " ) ");
-        sql = sql.replace("{", " { ");
-        sql = sql.replace("}", " } ");
-        sql = sql.replace(",", " , ");
-        sql = sql.replace("=", " = ");
-        sql = sql.replace("+", " + ");
-        sql = sql.replace("-", " - ");
-        sql = sql.replace("*", " * ");
-        sql = sql.replace("/", " / ");
+        //屏蔽掉分号;
+        if ((target = target.trim()).endsWith(";")) {
+            target = target.substring(0, target.length() - 1);
+        }
 
-        // 多空格 转换 为 一个空格
-        sql = sql.replaceAll(" +", " ");
-
-        logger.debug("escape sql:[{}]", sql);
-        return sql;
+//        target = target.replace("\t", " ");
+//        target = target.replace("\n", " ");
+//
+//        target = target.replace("(", " ( ");
+//        target = target.replace(")", " ) ");
+//        // 将原括号还原
+//        target = target.replace(" (  )", "()");
+//
+//        target = target.replace("{", " { ");
+//        target = target.replace("}", " } ");
+//
+//        target = target.replace(",", " , ");
+//
+//        target = target.replace("=", " = ");
+//        target = target.replace("! =", " != ");
+//        target = target.replace("> =", " >= ");
+//        target = target.replace("< =", " <= ");
+//        target = target.replace("&lt; =", " &lt;= ");
+//        target = target.replace("&gt; =", " &gt;= ");
+//
+//        target = target.replace("+", " + ");
+//        target = target.replace("-", " - ");
+//        target = target.replace("*", " * ");
+//        target = target.replace("/", " / ");
+//
+//        // 多空格 转换 为 一个空格
+//        target = target.replaceAll(" +", " ");
+//
+//        logger.debug("source sql:[{}] => escape sql:[{}]", src, target);
+        return target;
     }
 
 

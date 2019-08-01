@@ -1,5 +1,6 @@
-package com.Hsia.sharding.parser;
+package com.Hsia.sharding.route;
 
+import com.Hsia.sharding.parser.ResolveRouteValue;
 import com.Hsia.sharding.utils.ShardingUtil;
 import org.junit.Test;
 
