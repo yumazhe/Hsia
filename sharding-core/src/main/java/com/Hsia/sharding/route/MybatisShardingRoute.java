@@ -1,6 +1,7 @@
 package com.Hsia.sharding.route;
 
 import com.Hsia.sharding.dataSource.DataSourceContextHolder;
+import com.Hsia.sharding.exceptions.ShardingRuleException;
 import com.Hsia.sharding.route.tb.SetTableName;
 import com.Hsia.sharding.utils.ShardingUtil;
 import org.slf4j.Logger;
@@ -33,7 +34,7 @@ public class MybatisShardingRoute extends RouteImpl {
 
         Object routeValue = params[1];
 
-		/* 解析数据库表名 */
+        /* 解析数据库表名 */
         final String tbName = ResolveTableName.getTableName(srcSql);
 
         String targetSql = null;
@@ -50,8 +51,15 @@ public class MybatisShardingRoute extends RouteImpl {
         Rule tbRule = super.getTbRule();
         int tbIndex = tbRule.getRouteIndex(routeValue, dbQuantity, tbQuantity);
 
-		/* 单库多表模式下设定真正的数据库表名 */
-        targetSql = SetTableName.setRouteTableName(tbIndex, tbName, srcSql);
+        /* 单库多表模式下设定真正的数据库表名 */
+        // 判断是否需要分表操作？当表数量与库数量相同，表示一个库包含一个表，此时无需分表操作
+        if (dbQuantity == tbQuantity) {
+            targetSql = srcSql;
+        } else if (tbQuantity % dbQuantity == 0) {
+            targetSql = SetTableName.setRouteTableName(tbIndex, tbName, srcSql);
+        }else{
+            throw new ShardingRuleException("分库分表规则有误db=["+dbQuantity+"], tb=["+tbQuantity+"]");
+        }
 
         final int beginIndex = ShardingUtil.getBeginIndex(shardingRule, sqlType);
         dbIndex = dbIndex + beginIndex;

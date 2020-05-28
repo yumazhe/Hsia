@@ -1,5 +1,7 @@
 package com.Hsia.sharding.route;
 
+import java.util.Map;
+
 /**
  *
  * @ClassName: ShardingRule
@@ -10,11 +12,16 @@ package com.Hsia.sharding.route;
  */
 public class ShardingRule {
 
-	private String write_index; //数据库写库 索引
-	private String read_index; //数据库读库索引
-	private Integer dbQuantity;// 数据库数量
-	private Integer tbQuantity;// 数据表数量
-	private String routeKey; //路由主键
+	//数据库写库 索引
+	private String write_index;
+	//数据库读库索引
+	private String read_index;
+	// 数据库数量
+	private Integer dbQuantity;
+	// 数据表数量
+	private Integer tbQuantity;
+	//路由主键
+	private Map<String, String> routers;
 
 	public String getWrite_index() {
 		return write_index;
@@ -48,12 +55,11 @@ public class ShardingRule {
 		this.tbQuantity = tbQuantity;
 	}
 
-	public String getRouteKey() {
-		return routeKey;
+	public Map<String, String> getRouters() {
+		return routers;
 	}
 
-	public void setRouteKey(String routeKey) {
-		this.routeKey = routeKey;
+	public void setRouters(Map<String, String> routers) {
+		this.routers = routers;
 	}
-
 }

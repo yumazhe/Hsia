@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 import com.Hsia.sharding.dataSource.DataSourceContextHolder;
 import com.Hsia.sharding.exceptions.ShardingRuleException;
+import com.Hsia.sharding.parser.ResolveTableName;
 import com.Hsia.sharding.route.Route;
 import com.Hsia.sharding.utils.CommonUtil;
 import com.alibaba.fastjson.JSON;
@@ -41,11 +42,7 @@ import com.Hsia.sharding.utils.ShardingUtil;
  *
  * @author qsl. email：Hsia_Sharding@163.com
  */
-@Intercepts({
-        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
-        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class}),
-        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})
-})
+@Intercepts({@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}), @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class}), @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class})})
 public class MybatisExecuterInterceptor implements Interceptor {
 
     private Logger logger = LoggerFactory.getLogger(MybatisExecuterInterceptor.class);
@@ -80,20 +77,23 @@ public class MybatisExecuterInterceptor implements Interceptor {
 
         try {
 
-			/* 执行路由检测 */
+            /* 执行路由检测 */
             if (this.isDataSource(mappedStatement)) {
-                Object parameter = params[1];
-                BoundSql boundSql = mappedStatement.getBoundSql(parameter);
-                String srcSql = boundSql.getSql();
-
                 if (null == shardingRule) {
                     throw new ShardingRuleException("the shardingRule must not be null, please set it.");
                 }
 
+                Object parameter = params[1];
+                BoundSql boundSql = mappedStatement.getBoundSql(parameter);
+                String srcSql = boundSql.getSql();
+
+                // 根据sql获取表名
+                final String tbName = ResolveTableName.getTableName(srcSql);
+
                 // 多库 分表
                 if (shardingRule.getDbQuantity() > 1) {
                     //创建一个数组
-                    String routeKey = shardingRule.getRouteKey();
+                    String routeKey = shardingRule.getRouters().get(tbName);
                     logger.debug("the route key is [" + routeKey + "]");
 
                     Object routeValue = null;
@@ -108,7 +108,7 @@ public class MybatisExecuterInterceptor implements Interceptor {
                         //多参数, 用于路由键非唯一问题
                         Map<String, Object> parameterMap = (Map<String, Object>) parameter;
 
-                        if(parameterMap.containsKey(routeKey)){
+                        if (parameterMap.containsKey(routeKey)) {
                             try {
                                 routeValue = parameterMap.get(routeKey);
 
@@ -123,16 +123,11 @@ public class MybatisExecuterInterceptor implements Interceptor {
                                 throw new SqlParserException("you have not set route key[" + routeKey + "]");
                             }
 
-                        }else{
+                        } else {
                             logger.warn("you have not set route key. the map is [{}]", JSON.toJSONString(parameterMap));
                         }
 
-                    } else if (parameter instanceof Integer
-                            || parameter instanceof Long
-                            || parameter instanceof Double
-                            || parameter instanceof Float
-                            || parameter instanceof Short
-                            || parameter instanceof String) {//解析 入参只有一个的情况 判断是否为基础类型
+                    } else if (parameter instanceof Integer || parameter instanceof Long || parameter instanceof Double || parameter instanceof Float || parameter instanceof Short || parameter instanceof String) {//解析 入参只有一个的情况 判断是否为基础类型
 
                         if (ShardingUtil.haveRouteKey(srcSql, routeKey)) {
                             routeValue = parameter;
@@ -154,9 +149,8 @@ public class MybatisExecuterInterceptor implements Interceptor {
                         try {
                             int dbIndex = dataSourceHolder.getDataSourceIndex();
                             logger.warn("you set the db index is [{}] directly.", dbIndex);
-                        }catch (Exception e){
-                            throw new SqlParserException("the route value is null, and the db index is null. " +
-                                    "please set route key, or you can set [DataSourceContextHolder.setDataSourceIndex(dbIndex)] directly.");
+                        } catch (Exception e) {
+                            throw new SqlParserException("the route value is null, and the db index is null. " + "please set route key, or you can set [DataSourceContextHolder.setDataSourceIndex(dbIndex)] directly.");
                         }
 
 
