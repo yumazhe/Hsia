@@ -357,9 +357,7 @@ public class ShardingUtil {
 	 */
     public static int getDbIndex(ShardingRule shardingRule, Object routeValue) {
 		int index = -2;
-		long hash = CommonUtil.crc32(routeValue);
-		int dbSize = shardingRule.getDbSize();
-		index = (int)(hash%dbSize);
+		index = shardingRule.getRoutes().get(routeValue);
 		return index;
     }
 }

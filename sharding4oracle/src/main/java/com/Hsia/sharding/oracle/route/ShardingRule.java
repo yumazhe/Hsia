@@ -15,9 +15,9 @@ public class ShardingRule {
 	// 库数量
 	private int dbSize;
 	// 表数量
-	private int tbSize;
+	private String routeKey;
 	//表的路由键
-	private Map<String, String> routes;
+	private Map<Integer, Integer> routes;
 
 	public int getDbSize() {
 		return dbSize;
@@ -27,19 +27,19 @@ public class ShardingRule {
 		this.dbSize = dbSize;
 	}
 
-	public int getTbSize() {
-		return tbSize;
+	public String getRouteKey() {
+		return routeKey;
 	}
 
-	public void setTbSize(int tbSize) {
-		this.tbSize = tbSize;
+	public void setRouteKey(String routeKey) {
+		this.routeKey = routeKey;
 	}
 
-	public Map<String, String> getRoutes() {
+	public Map<Integer, Integer> getRoutes() {
 		return routes;
 	}
 
-	public void setRoutes(Map<String, String> routes) {
+	public void setRoutes(Map<Integer, Integer> routes) {
 		this.routes = routes;
 	}
 }
