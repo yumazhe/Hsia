@@ -8,11 +8,13 @@
 
 	<bean id="shardingRule" class="com.Hsia.sharding.oracle.route.ShardingRule">
 		<property name="dbSize" value="2"/><!-- 数据库数量 -->
-		<property name="tbSize" value="2"/><!-- 表数量 -->
-		<property name="routes">
-			<map key-type="java.lang.String">
-				<entry key="t_user" value="id"/>
-				<entry key="t_user2" value="ids"/>
+		<property name="routeKey" value="nodeId"/>
+		<property name="routes"><!-- 分区路由 key为分区ID，value数据源索引-->
+			<map key-type="java.lang.Integer">
+				<entry key="1" value="0"/>
+				<entry key="2" value="1"/>
+				<entry key="3" value="1"/>
+				<entry key="0" value="1"/>
 			</map>
 		</property>
 	</bean>

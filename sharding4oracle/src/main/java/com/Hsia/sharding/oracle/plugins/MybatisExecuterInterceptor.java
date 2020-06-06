@@ -69,7 +69,7 @@ public class MybatisExecuterInterceptor implements Interceptor {
                 final String tbName = ResolveTableName.getTableName(srcSql);
 
                 // TODO 根据表名获取路由主键
-                String routeKey = shardingRule.getRoutes().get(tbName);
+                String routeKey = shardingRule.getRouteKey();
                 if (routeKey == null) {
                     throw new ShardingRuleException("table[" + routeKey + "]不支持分库分表策略或者忘记配置路由键.");
                 }
