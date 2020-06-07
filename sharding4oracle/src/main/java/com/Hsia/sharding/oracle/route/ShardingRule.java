@@ -14,7 +14,9 @@ public class ShardingRule {
 
 	// 库数量
 	private int dbSize;
-	// 表数量
+	// 分区数量
+	private int areaSize;
+	//路由键
 	private String routeKey;
 	//表的路由键
 	private Map<Integer, Integer> routes;
@@ -41,5 +43,13 @@ public class ShardingRule {
 
 	public void setRoutes(Map<Integer, Integer> routes) {
 		this.routes = routes;
+	}
+
+	public int getAreaSize() {
+		return areaSize;
+	}
+
+	public void setAreaSize(int areaSize) {
+		this.areaSize = areaSize;
 	}
 }

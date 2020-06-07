@@ -38,10 +38,10 @@
 	</appender>
 
 	 <logger name="org.springframework">
-		<level value="warn" />
+		<level value="debug" />
 	</logger>
 	<logger name="org.mybatis">
-		<level value="warn" />
+		<level value="debug" />
 	</logger>
 
 	<!-- Root Logger -->

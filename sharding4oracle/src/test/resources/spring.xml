@@ -22,12 +22,12 @@
 	<bean id="singleSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSourceGroup" />
 		<property name="mapperLocations" value="classpath:mapper/single.xml" />
-		<property name="plugins" >
-			<!--executerInterceptor_rw-->
-			<array>
-				<ref bean="executerInterceptor"></ref>
-			</array>
-		</property>
+<!--		<property name="plugins" >-->
+<!--			&lt;!&ndash;executerInterceptor_rw&ndash;&gt;-->
+<!--			<array>-->
+<!--				<ref bean="executerInterceptor"></ref>-->
+<!--			</array>-->
+<!--		</property>-->
 	</bean>
 	<!-- 自动扫描了所有的XxxxMapper.xml对应的mapper接口文件，这样就不用一个一个手动配置Mpper的映射了，只要Mapper接口类和Mapper映射文件对应起来就可以了。 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -35,7 +35,13 @@
 		<property name="sqlSessionFactoryBeanName" value="singleSqlSessionFactory"/>
 	</bean>
 
-
+	<bean name="tradeWriteTransactionManager"
+		  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSourceGroup" />
+		<qualifier value="trade_Transaction"/>
+	</bean>
+	<tx:annotation-driven transaction-manager="tradeWriteTransactionManager"
+						  proxy-target-class="true" />
 
 
 

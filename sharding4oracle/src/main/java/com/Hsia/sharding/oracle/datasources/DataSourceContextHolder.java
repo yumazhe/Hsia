@@ -11,19 +11,18 @@ import org.springframework.stereotype.Component;
  *
  */
 
-@Component
 public class DataSourceContextHolder {
 
 	//通过ThreadLocal 每个线程维护一个数据源
 	private final static ThreadLocal<Integer> dataSourceContextHolder = new ThreadLocal<Integer>();
 	
 	//设置数据源索引
-	public void setDataSourceIndex(int index) {
+	public static void setDataSourceIndex(int index) {
  		dataSourceContextHolder.set(index);
 	}
 
 	//获取数据源索引
-	public int getDataSourceIndex() {
+	public static int getDataSourceIndex() {
 		return dataSourceContextHolder.get();
 	}
 	

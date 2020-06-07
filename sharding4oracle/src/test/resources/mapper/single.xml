@@ -6,15 +6,16 @@
     <resultMap id="userMap" type="com.Hsia.sharding.model.User">
         <result column="id" property="id"></result>
         <result column="money" property="money"></result>
+        <result column="node_id" property="nodeId"></result>
         <result column="create_time" property="createTime"></result>
     </resultMap>
 
     <!--注册用户-->
     <insert id="save" parameterType="com.Hsia.sharding.model.User">
         insert into t_user
-        (id, money)
+        (id, money,node_id)
         VALUES
-        (#{id}, #{money})
+        (#{id}, #{money},#{nodeId})
     </insert>
 
     <select id="query" resultMap="userMap">

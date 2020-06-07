@@ -19,15 +19,14 @@ public class DatasourceGroup extends AbstractRoutingDataSource {
 
 	private static Logger logger = Logger.getLogger(DatasourceGroup.class);
 
-	@Autowired
-	private DataSourceContextHolder dataSourceHolder;
+//	@Autowired
+//	private DataSourceContextHolder dataSourceHolder;
 
 	@Override
 	protected Object determineCurrentLookupKey() {
 		int index = -1;
 		/* 获取存放在ThreadLocal中的数据源索引 */
-		index = dataSourceHolder.getDataSourceIndex();
-		logger.debug("the datasource index is : --> " + index);
+		index = DataSourceContextHolder.getDataSourceIndex();
 		return index;
 	}
 }

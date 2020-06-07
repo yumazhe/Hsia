@@ -2,13 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
-	<bean id="executerInterceptor" class="com.Hsia.sharding.oracle.plugins.MybatisExecuterInterceptor">
-		<property name="shardingRule" ref="shardingRule"/>
-	</bean>
+<!--	<bean id="executerInterceptor" class="com.Hsia.sharding.oracle.plugins.MybatisExecuterInterceptor">-->
+<!--		<property name="shardingRule" ref="shardingRule"/>-->
+<!--	</bean>-->
 
 	<bean id="shardingRule" class="com.Hsia.sharding.oracle.route.ShardingRule">
 		<property name="dbSize" value="2"/><!-- 数据库数量 -->
-		<property name="routeKey" value="nodeId"/>
+		<property name="areaSize" value="4"/><!-- 分区数量 -->
 		<property name="routes"><!-- 分区路由 key为分区ID，value数据源索引-->
 			<map key-type="java.lang.Integer">
 				<entry key="1" value="0"/>

@@ -11,6 +11,7 @@ import java.util.Date;
 public class User implements Serializable {
     private int id;
     private int money;
+    private int nodeId;
     private Date createTime;
 
     public Date getCreateTime() {
@@ -21,9 +22,10 @@ public class User implements Serializable {
         this.createTime = createTime;
     }
 
-    public User(int id, int money) {
+    public User(int id, int money,int nodeId) {
         this.id = id;
         this.money = money;
+        this.nodeId = nodeId;
     }
 
     @Override
@@ -31,8 +33,17 @@ public class User implements Serializable {
         return "User{" +
                 "id=" + id +
                 ", money=" + money +
+                ", nodeId=" + nodeId +
                 ", createTime=" + createTime +
                 '}';
+    }
+
+    public int getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(int nodeId) {
+        this.nodeId = nodeId;
     }
 
     public int getId() {
