@@ -26,6 +26,7 @@
 				<entry key="1" value-ref="dataSource1"/>
 			</map>
 		</property>
+		<property name="defaultDatasourceIndex" value="0"/>
 	</bean>
 
 	<bean id="dataSource0" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close" init-method="init">

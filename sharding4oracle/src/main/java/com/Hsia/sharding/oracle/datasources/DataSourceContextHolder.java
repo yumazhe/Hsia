@@ -22,7 +22,7 @@ public class DataSourceContextHolder {
 	}
 
 	//获取数据源索引
-	public static int getDataSourceIndex() {
+	public static Integer getDataSourceIndex() {
 		return dataSourceContextHolder.get();
 	}
 	

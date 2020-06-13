@@ -44,8 +44,10 @@ public class ShardingTest {
                     System.out.println(id + "-!!!!!!!!!!!!!");
                     int money = new Random().nextInt();
                     User user = new User(id, money,id%4);
-                    int index = ShardingUtil.getDbIndex(shardingRule, id%shardingRule.getAreaSize());
-                    DataSourceContextHolder.setDataSourceIndex(index);
+                    if(id < 5){
+                        int index = ShardingUtil.getDbIndex(shardingRule, id%shardingRule.getAreaSize());
+                        DataSourceContextHolder.setDataSourceIndex(1);
+                    }
                     try{
                         userService.save(user);
                     }catch (Exception e){
